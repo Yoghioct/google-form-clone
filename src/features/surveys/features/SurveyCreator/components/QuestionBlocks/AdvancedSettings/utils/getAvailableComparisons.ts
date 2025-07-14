@@ -1,4 +1,4 @@
-import { ComparisonType } from '@prisma/client';
+import { ComparisonType } from 'features/surveys/features/SurveyCreator/managers/createSurveyManager/createSurveyManager';
 import { Translate } from 'next-translate';
 
 export const getAvailableComparisons = (

@@ -3,12 +3,11 @@ import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import useCopyToClipboard from 'shared/hooks/useCopyToClipboard';
 import useTranslation from 'next-translate/useTranslation';
-import { ComparisonType, QuestionType } from '@prisma/client';
+import { QuestionType } from '@prisma/client';
 import { postFetch, putFetch } from '../../../../../../../lib/axiosConfig';
 import { END_OF_SURVEY } from 'shared/constants/surveysConfig';
 import { DRAFT_SURVEY_SESSION_STORAGE } from 'shared/constants/app';
 import { SurveyWithQuestions } from 'types/SurveyWithQuestions';
-import { LogicPath } from '@prisma/client';
 import { DropResult } from 'react-beautiful-dnd';
 import { CreateEditSurveyPayload } from 'pages/api/survey';
 import { QuestionWithLogicPath } from 'types/QuestionWithLogicPath';
@@ -32,6 +31,20 @@ export interface SurveyOptions {
   hideProgressBar: boolean;
   accentColor: string;
 }
+
+export enum ComparisonType {
+  EQUAL = 'EQUAL',
+  GREATER_THAN = 'GREATER_THAN',
+  LESS_THAN = 'LESS_THAN',
+  SUBMITTED = 'SUBMITTED',
+}
+
+export type LogicPath = {
+  nextQuestionId?: string;
+  endSurvey?: boolean;
+  selectedOption?: string;
+  comparisonType: ComparisonType;
+};
 
 export const useCreateSurveyManager = (initialData?: SurveyWithQuestions) => {
   const { setActivePage } = useApplicationContext();

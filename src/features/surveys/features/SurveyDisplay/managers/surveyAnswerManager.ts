@@ -6,7 +6,8 @@ import useTranslation from 'next-translate/useTranslation';
 import { useRouter } from 'next/router';
 import { getFetch, postFetch } from '../../../../../../lib/axiosConfig';
 import { SurveyWithQuestions } from 'types/SurveyWithQuestions';
-import { ComparisonType, Survey } from '@prisma/client';
+import { Survey } from '@prisma/client';
+import { ComparisonType } from 'features/surveys/features/SurveyCreator/managers/createSurveyManager/createSurveyManager';
 import { QuestionWithLogicPath } from 'types/QuestionWithLogicPath';
 
 export type Answers = { [key: string]: string };

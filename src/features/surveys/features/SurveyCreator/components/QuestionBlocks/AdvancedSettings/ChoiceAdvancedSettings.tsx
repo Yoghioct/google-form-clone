@@ -1,8 +1,7 @@
 import React from 'react';
 import LogicalJump from 'features/surveys/features/SurveyCreator/components/LogicalJump/LogicalJump';
-import { DraftQuestion } from 'features/surveys/features/SurveyCreator/managers/createSurveyManager/createSurveyManager';
+import { DraftQuestion, ComparisonType } from 'features/surveys/features/SurveyCreator/managers/createSurveyManager/createSurveyManager';
 import { useSurveyCreatorContext } from 'features/surveys/features/SurveyCreator/managers/createSurveyManager/context';
-import { ComparisonType } from '@prisma/client';
 
 import useTranslation from 'next-translate/useTranslation';
 import { getAvailableOptions } from 'features/surveys/features/SurveyCreator/components/QuestionBlocks/AdvancedSettings/utils/getAvailableOptions';

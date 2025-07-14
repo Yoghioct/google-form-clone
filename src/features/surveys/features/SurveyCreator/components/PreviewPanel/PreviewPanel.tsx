@@ -4,8 +4,11 @@ import React from 'react';
 import { useSurveyCreatorContext } from 'features/surveys/features/SurveyCreator/managers/createSurveyManager/context';
 import { usePreviewPanelContext } from 'features/surveys/features/SurveyCreator/managers/previewPanelManager/context';
 import { RefreshIcon, XIcon } from '@heroicons/react/outline';
-import { LogicPath } from '@prisma/client';
+import { LogicPath } from 'features/surveys/features/SurveyCreator/managers/createSurveyManager/createSurveyManager';
 import Button from 'shared/components/Button/Button';
+import { SurveyWithQuestions } from 'types/SurveyWithQuestions';
+import { QuestionWithLogicPath } from 'types/QuestionWithLogicPath';
+import { CreateEditSurveyPayload } from 'pages/api/survey';
 
 export default function PreviewPanel() {
   const { questions, title, surveyOptions } = useSurveyCreatorContext();

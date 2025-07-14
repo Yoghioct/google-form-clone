@@ -7,8 +7,10 @@ import React, { useEffect } from 'react';
 import Select from 'shared/components/Select/Select';
 import { useSurveyCreatorContext } from 'features/surveys/features/SurveyCreator/managers/createSurveyManager/context';
 import { ConditionOptions } from 'features/surveys/features/SurveyCreator/components/LogicalJump/LogicalJump';
-import { ComparisonType, QuestionType } from '@prisma/client';
 import { END_OF_SURVEY } from 'shared/constants/surveysConfig';
+import { DraftQuestion } from 'features/surveys/features/SurveyCreator/managers/createSurveyManager/createSurveyManager';
+import { ComparisonType } from 'features/surveys/features/SurveyCreator/managers/createSurveyManager/createSurveyManager';
+import { QuestionType } from '@prisma/client';
 
 interface ConditionProps {
   elseCondition?: boolean;

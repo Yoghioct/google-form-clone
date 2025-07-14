@@ -3,7 +3,8 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import prismadb from '../../../../lib/prismadb';
 
 import serverAuth from '../../../../lib/serverAuth';
-import { ComparisonType, QuestionType } from '@prisma/client';
+import { QuestionType } from '@prisma/client';
+import { ComparisonType } from 'features/surveys/features/SurveyCreator/managers/createSurveyManager/createSurveyManager';
 import {
   MAX_LOGIC_PATHS,
   MAX_QUESTIONS,
