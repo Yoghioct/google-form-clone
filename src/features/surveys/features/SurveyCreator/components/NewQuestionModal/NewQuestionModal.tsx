@@ -8,6 +8,7 @@ import EmojiIcon from 'shared/components/QuestionTypeIcons/EmojiIcon';
 import InputIcon from 'shared/components/QuestionTypeIcons/InputIcon';
 import ChoiceIcon from 'shared/components/QuestionTypeIcons/ChoiceIcon';
 import RateIcon from 'shared/components/QuestionTypeIcons/RateIcon';
+import SectionIcon from 'shared/components/QuestionTypeIcons/SectionIcon';
 
 type NewQuestionModalProps = {
   isOpened: boolean;
@@ -75,6 +76,18 @@ export default function NewQuestionModal({
     });
   };
 
+  const addSectionQuestion = () => {
+    closeModal();
+    onSuccess?.({
+      draftId: v4(),
+      type: QuestionType.SECTION,
+      title: 'Section Title',
+      isRequired: false,
+      expanded: true,
+      advancedSettingsExpanded: false,
+    });
+  };
+
   return (
     <StyledDialog
       isOpen={isOpened}
@@ -82,6 +95,12 @@ export default function NewQuestionModal({
       title={'Choose block type'}
       content={
         <div className="mt-6 flex flex-col gap-2 sm:mt-4 sm:flex-row">
+          <NewQuestionModalButton
+            onClick={addSectionQuestion}
+            icon={<SectionIcon />}
+            text="Section"
+            test-selector="section-question-button"
+          />
           <NewQuestionModalButton
             onClick={addEmojiQuestion}
             icon={<EmojiIcon />}
@@ -106,6 +125,7 @@ export default function NewQuestionModal({
             text="Rate"
             test-selector="rate-question-button"
           />
+
         </div>
       }
     />

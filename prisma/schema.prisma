@@ -120,6 +120,7 @@ enum QuestionType {
   INPUT
   CHOICE
   RATE
+  SECTION
 }
 
 enum ComparisonType {

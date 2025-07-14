@@ -6,6 +6,7 @@ import InputIcon from 'shared/components/QuestionTypeIcons/InputIcon';
 import RateIcon from 'shared/components/QuestionTypeIcons/RateIcon';
 import { Tooltip } from 'react-tooltip';
 import useTranslation from 'next-translate/useTranslation';
+import SectionIcon from './SectionIcon';
 
 interface QuestionTypeIconsProps {
   index: number;
@@ -38,6 +39,7 @@ export default function QuestionTypeIcons({
         {type === QuestionType.INPUT && <InputIcon />}
         {type === QuestionType.CHOICE && <ChoiceIcon />}
         {type === QuestionType.RATE && <RateIcon />}
+        {type === QuestionType.SECTION && <SectionIcon />}
       </div>
     </>
   );

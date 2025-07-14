@@ -43,6 +43,7 @@
     "emoji": "Emoji",
     "input": "Input",
     "choice": "Choice",
-    "rate": "Rate"
+    "rate": "Rate",
+    "section": "Section"
   }
 }

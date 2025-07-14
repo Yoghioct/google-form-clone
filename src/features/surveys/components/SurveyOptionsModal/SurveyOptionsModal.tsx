@@ -70,7 +70,7 @@ export default function SurveyOptionsModalModal({
             <></>
           )}
 
-          <hr className="my-4" />
+          {/* <hr className="my-4" />
           <div className="flex items-center gap-3 text-sm">
             <div>Accent color</div>
             <input
@@ -83,7 +83,7 @@ export default function SurveyOptionsModalModal({
               }}
               title="Choose your color"
             />
-          </div>
+          </div> */}
         </div>
       }
     />

@@ -36,7 +36,7 @@ export default function Tabs({ categories }: TabsProps) {
               <Tab.Panel
                 key={idx}
                 className={clsx(
-                  'mt-2 ring-white/60 ring-offset-2 ring-offset-blue-400 focus:outline-none'
+                  'mt-2 ring-white/60 ring-offset-2 ring-offset-purple-400 focus:outline-none'
                 )}
               >
                 {content}
