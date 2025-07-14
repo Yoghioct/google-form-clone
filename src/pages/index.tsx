@@ -41,7 +41,7 @@ function IndexPage({
         </p>
 
         <div className="mb-16 flex flex-col space-y-2 sm:flex-row sm:justify-center sm:space-x-4 sm:space-y-0">
-          <ButtonLink
+          {/* <ButtonLink
             href="https://github.com/Ryczko/FormsLab"
             target="_blank"
             className="flex w-full items-center justify-center sm:w-[250px]"
@@ -54,7 +54,7 @@ function IndexPage({
                 <StarIcon className="h-4 w-4" />)
               </>
             )}
-          </ButtonLink>
+          </ButtonLink> */}
 
           <ButtonLink
             href={'/survey/create'}
@@ -68,7 +68,7 @@ function IndexPage({
 
         <hr />
 
-        <MainSection
+        {/* <MainSection
           image="/images/creator.webp"
           alt="creating survey"
           title={t('createTitle')}
@@ -86,7 +86,7 @@ function IndexPage({
           alt="creating survey"
           title={t('resultTitle')}
           description={t('resultDescription')}
-        />
+        /> */}
       </div>
     </StandardPageWrapper>
   );

@@ -38,7 +38,7 @@ export default function Account() {
         <></>
       )}
 
-      {process.env.NEXT_PUBLIC_REMOVE_ACCOUNT && (
+      {/* {process.env.NEXT_PUBLIC_REMOVE_ACCOUNT && (
         <>
           <div className="flex flex-col items-center justify-center space-y-2">
             <div className="flex w-full md:ml-2 md:w-auto">
@@ -91,7 +91,7 @@ export default function Account() {
             }
           />
         </>
-      )}
+      )} */}
     </>
   );
 }

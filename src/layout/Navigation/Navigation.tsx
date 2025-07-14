@@ -43,12 +43,12 @@ function Navigation() {
 
   return (
     <nav className="fixed left-0 top-0 z-40 flex h-[var(--navigation-height)] w-full items-center border-b bg-white/70 backdrop-blur-md">
-      <GithubCorner />
+      {/* <GithubCorner /> */}
 
       <div
         className={`flex grow ${
           user ? 'justify-between' : 'justify-center xsm:justify-between'
-        } items-center px-4 xsm:pl-20 md:pr-6`}
+        } items-center px-4 xsm:pl-6 md:pr-6`}
       >
         <div className="flex items-center gap-6 text-secondary-800">
           <Logo />

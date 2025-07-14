@@ -89,7 +89,7 @@ function Templates() {
           buttonTestSelector="start-from-scratch-button"
         />
 
-        {TEMPLATES.map((template, index) => (
+        {/* {TEMPLATES.map((template, index) => (
           <TemplateItem
             key={index}
             onTemplatePick={handleTemplatePick}
@@ -100,7 +100,7 @@ function Templates() {
               handleTemplatePreview(e, template, index + 2)
             }
           />
-        ))}
+        ))} */}
         <div
           className={clsx(
             'flex h-[140px] flex-grow flex-col items-center justify-center rounded border border-dashed border-zinc-600/50 p-2',
@@ -108,7 +108,7 @@ function Templates() {
           )}
         >
           <div className="mb-2 font-semibold">More templates soon!</div>
-          <div>
+          {/* <div>
             Any suggestions?
             <a
               target="_blank"
@@ -117,7 +117,7 @@ function Templates() {
             >
               Create an issue
             </a>
-          </div>
+          </div> */}
         </div>
       </div>
     </>
