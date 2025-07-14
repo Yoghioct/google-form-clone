@@ -1,6 +1,6 @@
-# Contributing to FormsLab
+# Contributing to Survee
 
-Contributing to FormsLab is fairly easy. This document will guide you through the process.
+Contributing to Survee is fairly easy. This document will guide you through the process.
 
 ## Local Development
 

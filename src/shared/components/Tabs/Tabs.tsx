@@ -12,17 +12,17 @@ export default function Tabs({ categories }: TabsProps) {
   return (
     <div className="w-full px-2 sm:px-0">
       <Tab.Group>
-        <Tab.List className="flex space-x-[2px] rounded-md bg-indigo-200 p-[1px]">
+        <Tab.List className="flex space-x-[2px] rounded-md bg-purple-200 p-[1px]">
           {Object.keys(categories).map((category) => (
             <Tab
               key={category}
               className={({ selected }) =>
                 clsx(
                   'w-full rounded-md py-2 text-sm font-medium leading-5',
-                  'ring-white/60 ring-offset-2 ring-offset-indigo-200 focus:outline-none',
+                  'ring-white/60 ring-offset-2 ring-offset-purple-200 focus:outline-none',
                   selected
-                    ? 'bg-white text-indigo-400 shadow'
-                    : 'text-indigo-800 hover:bg-white/40'
+                    ? 'bg-white text-purple-800 shadow'
+                    : 'text-purple-800 hover:bg-white/40'
                 )
               }
             >

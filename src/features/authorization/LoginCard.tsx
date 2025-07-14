@@ -76,7 +76,7 @@ export default function LoginCard() {
             )}
             <div className="flex flex-col items-center justify-center">
               <LoginButton
-                className="mb-2 mt-1 border-indigo-200 !bg-indigo-200 !text-indigo-900 hover:!bg-indigo-300"
+                className="mb-2 mt-1 border-purple-200 !bg-purple-200 !text-purple-900 hover:!bg-purple-300"
                 type="submit"
                 onClick={handleSubmit}
                 isLoading={isSubmitting}

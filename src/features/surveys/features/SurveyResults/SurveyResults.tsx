@@ -55,7 +55,7 @@ export default function SurveyResults() {
   return (
     <>
       <div className="mb-6 flex flex-col items-center justify-between gap-x-8 sm:mb-4 sm:flex-row">
-        <h1 className="flex min-h-[38px] items-center border-indigo-200 pb-2 text-xl font-semibold sm:border-l-4 sm:pb-0 sm:pl-4 sm:text-left">
+        <h1 className="flex min-h-[38px] items-center border-purple-200 pb-2 text-xl font-semibold sm:border-l-4 sm:pb-0 sm:pl-4 sm:text-left">
           {surveyData?.title}
         </h1>
         <div className="flex w-full flex-wrap justify-center gap-2 sm:w-auto sm:flex-nowrap">

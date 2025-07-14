@@ -43,7 +43,7 @@ export default function Select({
       >
         <Listbox.Button
           className={clsx(
-            'relative w-full rounded-md border py-1 pl-3 pr-10 text-left shadow-sm focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm',
+            'relative w-full rounded-md border py-1 pl-3 pr-10 text-left shadow-sm focus:outline-none focus-visible:border-purple-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm',
             disabled
               ? 'cursor-not-allowed bg-gray-100'
               : 'cursor-default bg-white',
@@ -80,7 +80,7 @@ export default function Select({
                 key={optionIdx}
                 className={({ active }) =>
                   `relative cursor-default select-none py-1 text-sm text-left px-4 ${
-                    active ? 'bg-indigo-100 text-indigo-400' : 'text-gray-900'
+                    active ? 'bg-purple-100 text-purple-800' : 'text-gray-900'
                   }`
                 }
                 value={option}

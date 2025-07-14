@@ -29,7 +29,7 @@ export default function Progressbar({
 
   return (
     <div
-      className="relative mt-4 h-[12px] w-full overflow-hidden rounded-lg bg-indigo-100"
+      className="relative mt-4 h-[12px] w-full overflow-hidden rounded-lg bg-purple-100"
       style={{ background: getBackgroundColor() }}
     >
       <div
@@ -38,7 +38,7 @@ export default function Progressbar({
           width: `${isSubmitted ? 100 : percentage}%`,
           backgroundColor: accentColor ?? undefined,
         }}
-        className="h-full bg-indigo-300 transition-all duration-300"
+        className="h-full bg-purple-300 transition-all duration-300"
       ></div>
 
       {/* <span className="text-purple absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-xs font-semibold">

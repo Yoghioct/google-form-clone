@@ -113,7 +113,7 @@ function Templates() {
             <a
               target="_blank"
               className="ml-1 underline"
-              href="https://github.com/Ryczko/FormsLab/issues"
+              href="https://github.com/Ryczko/Survee/issues"
             >
               Create an issue
             </a>

@@ -1,5 +1,5 @@
 {
-  "name": "formslab",
+  "name": "Survee",
   "version": "0.0.1",
   "description": "Build and simply collect data or feedback from users",
   "main": "index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Ryczko/FormsLab.git"
+    "url": "git+https://github.com/Ryczko/Survee.git"
   },
   "keywords": [
     "form",
@@ -18,10 +18,10 @@
     "feedback",
     "emoji"
   ],
-  "author": "FormsLab team",
+  "author": "Survee team",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Ryczko/FormsLab/issues"
+    "url": "https://github.com/Ryczko/Survee/issues"
   },
-  "homepage": "https://github.com/Ryczko/FormsLab"
+  "homepage": "https://github.com/Ryczko/Survee"
 }

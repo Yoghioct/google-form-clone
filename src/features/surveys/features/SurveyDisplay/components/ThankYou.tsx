@@ -19,7 +19,7 @@ export default function ThankYou() {
         className="leading-tighter mt-4 text-3xl font-extrabold tracking-tighter"
       >
         {t('firstPartHeading')}&nbsp;
-        <span className="text-indigo-200">{t('secondPartHeading')}</span>
+        <span className="text-purple-200">{t('secondPartHeading')}</span>
       </h1>
       <p className="text-md mt-2 max-w-lg text-zinc-600">{t('content')}</p>
     </div>

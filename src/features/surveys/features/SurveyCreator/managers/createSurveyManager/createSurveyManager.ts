@@ -61,7 +61,7 @@ export const useCreateSurveyManager = (initialData?: SurveyWithQuestions) => {
     oneQuestionPerStep: initialData?.oneQuestionPerStep ?? true,
     displayTitle: initialData?.displayTitle ?? false,
     hideProgressBar: initialData?.hideProgressBar ?? false,
-    accentColor: initialData?.accentColor ?? '#C7D2FE',
+    accentColor: initialData?.accentColor ?? '#7E00C3',
   });
 
   const [error, setError] = useState('');

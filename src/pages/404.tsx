@@ -14,7 +14,7 @@ export default function FourOhFour() {
       </Head>
       <section>
         <div className="mt-12 px-4 py-8 lg:px-6 lg:py-16">
-          <h1 className="text-primary-300 mb-2 text-7xl font-extrabold tracking-tight text-indigo-300 lg:text-8xl">
+          <h1 className="text-primary-300 mb-2 text-7xl font-extrabold tracking-tight text-purple-300 lg:text-8xl">
             404
           </h1>
 
