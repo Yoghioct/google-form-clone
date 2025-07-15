@@ -66,7 +66,7 @@ function IndexPage({
           </ButtonLink>
         </div>
 
-        <hr />
+        {/* <hr /> */}
 
         {/* <MainSection
           image="/images/creator.webp"

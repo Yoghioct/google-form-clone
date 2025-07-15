@@ -39,118 +39,80 @@ export const AnswersComponentFactory = (
   const isLastQuestion = activeQuestionIndex === formData?.questions.length - 1;
 
   return (
-    // <div className="mb-3 rounded-md border bg-white p-4 shadow">
-    //   <h2 className="mb-4 text-lg font-semibold">
-    //     {currentQuestion.title.trim() || '-'}
-    //   </h2>
-    //   {currentQuestion.type === QuestionType.EMOJI && (
-    //     <ListAnswersComponent questionData={currentQuestion} />
-    //   )}
-    //   {currentQuestion.type === QuestionType.INPUT && (
-    //     <TextAnswersComponent questionData={currentQuestion} />
-    //   )}
-    //   {currentQuestion.type === QuestionType.CHOICE && (
-    //     <ChoiceComponent questionData={currentQuestion} />
-    //   )}
-    //   {currentQuestion.type === QuestionType.RATE && (
-    //     <RateAnswersComponent questionData={currentQuestion} />
-    //   )}
-
-    //   {formData.oneQuestionPerStep && (
-    //     <div className="mt-6 flex flex-col-reverse gap-x-4 gap-y-2 sm:flex-row">
-    //       {isBackButtonVisible && (
-    //         <Button
-    //           variant={ButtonVariant.OUTLINE}
-    //           sizeType={ButtonSize.FULL}
-    //           onClick={handlePreviousQuestion}
-    //           disabled={isAnswering}
-    //           className="text-black"
-    //         >
-    //           {t('back')}
-    //         </Button>
-    //       )}
-
-    //       {isNextButtonVisible && (
-    //         <Button
-    //           variant={ButtonVariant.PRIMARY}
-    //           sizeType={ButtonSize.FULL}
-    //           onClick={handleNextQuestion}
-    //           isLoading={isAnswering}
-    //           style={{
-    //             backgroundColor: formData.accentColor ?? undefined,
-    //             color: getFontColor(formData.accentColor),
-    //           }}
-    //         >
-    //           {isLastQuestion ? t('sendButton') : t('next')}
-    //         </Button>
-    //       )}
-    //     </div>
-    //   )}
-    // </div>
-
-    <>
-      {
-        currentQuestion.type === QuestionType.SECTION ? (
-          // <h1>aaaaa</h1>
-          <div className="mb-3 bg-purple-900 rounded-md border bg-white p-4 shadow">
-            <h1 className="text-2xl font-bold text-white">
-              {currentQuestion.title || 'Section Title'}
-            </h1>
-            {currentQuestion.description && (
-              <p className="mt-2 text-gray-100">{currentQuestion.description}</p>
-            )}
-          </div>
+    <div className="mb-3 rounded-md border bg-white p-4 shadow">
+      <div
+        className={`mb-4 rounded-md p-4 ${
+          currentQuestion.type === QuestionType.SECTION
+            ? 'bg-purple-900 text-white'
+            : ''
+        }`}
+      >
+        {currentQuestion.type !== QuestionType.SECTION ? (
+          <h2 className="text-lg font-semibold">
+            {currentQuestion.title.trim() || '-'}
+          </h2>
         ) : (
-          <div className="mb-3 rounded-md border bg-white p-4 shadow">
-            <h2 className="mb-4 text-lg font-semibold">
-              {currentQuestion.title.trim() || '-'}
-            </h2>
-            {currentQuestion.type === QuestionType.EMOJI && (
-              <ListAnswersComponent questionData={currentQuestion} />
-            )}
-            {currentQuestion.type === QuestionType.INPUT && (
-              <TextAnswersComponent questionData={currentQuestion} />
-            )}
-            {currentQuestion.type === QuestionType.CHOICE && (
-              <ChoiceComponent questionData={currentQuestion} />
-            )}
-            {currentQuestion.type === QuestionType.RATE && (
-              <RateAnswersComponent questionData={currentQuestion} />
-            )}
+          <h1 className="text-2xl font-bold">
+            {currentQuestion.title.trim() || '-'}
+          </h1>
+        )}
 
-            {formData.oneQuestionPerStep && (
-              <div className="mt-6 flex flex-col-reverse gap-x-4 gap-y-2 sm:flex-row">
-                {isBackButtonVisible && (
-                  <Button
-                    variant={ButtonVariant.OUTLINE}
-                    sizeType={ButtonSize.FULL}
-                    onClick={handlePreviousQuestion}
-                    disabled={isAnswering}
-                    className="text-black"
-                  >
-                    {t('back')}
-                  </Button>
-                )}
+        {currentQuestion.description && (
+          <p
+            className={`mt-1 text-sm ${
+              currentQuestion.type === QuestionType.SECTION
+                ? 'text-gray-100'
+                : 'text-gray-600'
+            }`}
+          >
+            {currentQuestion.description}
+          </p>
+        )}
+      </div>
+      {currentQuestion.type === QuestionType.EMOJI && (
+        <ListAnswersComponent questionData={currentQuestion} />
+      )}
+      {currentQuestion.type === QuestionType.INPUT && (
+        <TextAnswersComponent questionData={currentQuestion} />
+      )}
+      {currentQuestion.type === QuestionType.CHOICE && (
+        <ChoiceComponent questionData={currentQuestion} />
+      )}
+      {currentQuestion.type === QuestionType.RATE && (
+        <RateAnswersComponent questionData={currentQuestion} />
+      )}
 
-                {isNextButtonVisible && (
-                  <Button
-                    variant={ButtonVariant.PRIMARY}
-                    sizeType={ButtonSize.FULL}
-                    onClick={handleNextQuestion}
-                    isLoading={isAnswering}
-                    style={{
-                      backgroundColor: formData.accentColor ?? undefined,
-                      color: getFontColor(formData.accentColor),
-                    }}
-                  >
-                    {isLastQuestion ? t('sendButton') : t('next')}
-                  </Button>
-                )}
-              </div>
-            )}
-          </div>
-        )
-      }
-    </>
+      {formData.oneQuestionPerStep && (
+        <div className="mt-6 flex flex-col-reverse gap-x-4 gap-y-2 sm:flex-row">
+          {isBackButtonVisible && (
+            <Button
+              variant={ButtonVariant.OUTLINE}
+              sizeType={ButtonSize.FULL}
+              onClick={handlePreviousQuestion}
+              disabled={isAnswering}
+              className="text-black"
+            >
+              {t('back')}
+            </Button>
+          )}
+
+          {isNextButtonVisible && (
+            <Button
+              variant={ButtonVariant.PRIMARY}
+              sizeType={ButtonSize.FULL}
+              onClick={handleNextQuestion}
+              isLoading={isAnswering}
+              style={{
+                backgroundColor: formData.accentColor ?? undefined,
+                color: getFontColor(formData.accentColor),
+              }}
+            >
+              {isLastQuestion ? t('sendButton') : t('next')}
+            </Button>
+          )}
+        </div>
+      )}
+    </div>
+
   );
 };

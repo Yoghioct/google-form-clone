@@ -36,6 +36,7 @@ export default function NewQuestionModal({
       ],
       expanded: true,
       advancedSettingsExpanded: false,
+      description: '',
     });
   };
 
@@ -48,6 +49,7 @@ export default function NewQuestionModal({
       isRequired: true,
       expanded: true,
       advancedSettingsExpanded: false,
+      description: '',
     });
   };
 
@@ -61,6 +63,7 @@ export default function NewQuestionModal({
       options: ['Chicken 🐔', 'Egg 🥚'],
       expanded: true,
       advancedSettingsExpanded: false,
+      description: '',
     });
   };
 
@@ -73,6 +76,7 @@ export default function NewQuestionModal({
       isRequired: true,
       expanded: true,
       advancedSettingsExpanded: false,
+      description: '',
     });
   };
 
@@ -85,6 +89,7 @@ export default function NewQuestionModal({
       isRequired: false,
       expanded: true,
       advancedSettingsExpanded: false,
+      description: '',
     });
   };
 

@@ -23,6 +23,7 @@ export interface DraftQuestion {
   logicPaths?: Partial<LogicPath>[];
   expanded: boolean;
   advancedSettingsExpanded: boolean;
+  description?: string;
 }
 
 export interface SurveyOptions {
@@ -348,6 +349,7 @@ export const useCreateSurveyManager = (initialData?: SurveyWithQuestions) => {
         options: question.options ?? [],
         type: question.type,
         isRequired: question.isRequired,
+        description: question.description || '',
         logicPaths: question.logicPaths?.map((path) => ({
           comparisonType: path.comparisonType as ComparisonType,
           selectedOption: path.selectedOption as string,
@@ -505,6 +507,16 @@ export const useCreateSurveyManager = (initialData?: SurveyWithQuestions) => {
     setQuestions(questions);
   };
 
+  const updateQuestionDescription = (newDescription: string, questionIndex: number) => {
+    setQuestions((oldQuestions) => {
+      const newQuestions = [...oldQuestions];
+      const newQuestion = { ...newQuestions[questionIndex] };
+      newQuestion.description = newDescription;
+      newQuestions.splice(questionIndex, 1, newQuestion);
+      return newQuestions;
+    });
+  };
+
   return {
     title,
     error,
@@ -537,6 +549,7 @@ export const useCreateSurveyManager = (initialData?: SurveyWithQuestions) => {
     getDraftSurveyFromSessionStorage,
     isTemplatePicked,
     setIsTemplatePicked,
+    updateQuestionDescription,
   };
 };
 

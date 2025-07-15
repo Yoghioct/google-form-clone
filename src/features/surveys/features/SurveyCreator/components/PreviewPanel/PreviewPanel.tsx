@@ -64,7 +64,7 @@ export default function PreviewPanel() {
                 title: question.title,
                 type: question.type,
                 answers: [],
-                description: '',
+                description: question.description || '',
                 logicPaths: (question.logicPaths as LogicPath[]) ?? [],
                 isRequired: question.isRequired,
               })),

@@ -17,6 +17,8 @@ import QuestionTypeIcons from 'shared/components/QuestionTypeIcons/QuestionTypeI
 import { useSurveyCreatorContext } from 'features/surveys/features/SurveyCreator/managers/createSurveyManager/context';
 import { DraftQuestion } from 'features/surveys/features/SurveyCreator/managers/createSurveyManager/createSurveyManager';
 import Button, { ButtonSize } from 'shared/components/Button/Button';
+import TextareaAutosize from 'react-textarea-autosize';
+import { QuestionType } from '@prisma/client';
 
 interface QuestionBlockWrapperProps {
   index: number;
@@ -43,6 +45,7 @@ export default function QuestionBlockWrapper({
     questions,
     isEditMode,
     expandAdvancedSettings,
+    updateQuestionDescription,
   } = useSurveyCreatorContext();
 
   const isRemovingPossible = questions.length > MIN_QUESTIONS;
@@ -138,6 +141,18 @@ export default function QuestionBlockWrapper({
 
       {questionData.expanded && (
         <div className="mb-2.5 px-2">
+          <div className="mb-2">
+            <TextareaAutosize
+              minRows={2}
+              maxRows={4}
+              maxLength={191}
+              placeholder={t('descriptionPlaceholder')}
+              value={questionData.description || ''}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => updateQuestionDescription(e.target.value, index)}
+              className="w-full rounded border border-gray-300 p-2 text-sm"
+            />
+            <div className="text-xs text-gray-400 text-right">{(questionData.description || '').length}/191</div>
+          </div>
           {isEditMode ? (
             <div className="relative opacity-50">
               <div className="absolute z-50 h-full w-full cursor-not-allowed"></div>
@@ -169,13 +184,15 @@ export default function QuestionBlockWrapper({
               </div>
             )}
 
-            <div className="absolute right-1 top-3">
-              <Toggle
-                label={t('requiredToggle')}
-                onToggle={handleRequiredToggle}
-                isEnabled={questionData.isRequired}
-              />
-            </div>
+            {questionData.type !== QuestionType.SECTION && (
+              <div className="absolute right-1 top-3">
+                <Toggle
+                  label={t('requiredToggle')}
+                  onToggle={handleRequiredToggle}
+                  isEnabled={questionData.isRequired}
+                />
+              </div>
+            )}
           </div>
         </div>
       )}

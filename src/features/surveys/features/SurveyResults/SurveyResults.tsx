@@ -118,12 +118,12 @@ export default function SurveyResults() {
 
       {surveyData?.answers?.length === 0 && (
         <>
-          <Image
+          {/* <Image
             className="mx-auto mt-12 w-[140px]"
             src={NoAnswers}
             height={160}
             alt="no answers"
-          />
+          /> */}
           <div className="my-6">{t('noAnswers')}</div>
           <Button
             title={t('shareSurvey')}

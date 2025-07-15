@@ -7,6 +7,7 @@ import ThankYou from 'features/surveys/features/SurveyDisplay/components/ThankYo
 import clsx from 'clsx';
 import NoSurveys from '/public/images/no-surveys.svg';
 import Image from 'next/image';
+import Logo from 'layout/Logo/Logo';
 
 export default function SurveyDisplayContent() {
   const { formData, isSurveyFinished, previewMode } = useSurveyDisplayContext();
@@ -27,12 +28,12 @@ export default function SurveyDisplayContent() {
 
           {formData.questions.length === 0 && (
             <>
-              <Image
+              {/* <Image
                 className="mx-auto mb-6 w-[160px] -translate-x-3"
                 src={NoSurveys}
                 alt="no surveys"
                 height={165}
-              />
+              /> */}
               <p>There are no questions in this survey</p>
             </>
           )}

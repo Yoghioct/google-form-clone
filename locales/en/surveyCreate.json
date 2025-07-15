@@ -20,6 +20,7 @@
   "surveyCreationSucessCopiedCorrectly": "and link copied to clipboard",
   "signInToCreateSurvey": "Sign in to create survey",
   "options": "Display options",
+  "descriptionPlaceholder": "Enter a description (optional)",
   "GREATER_THAN": "greater than",
   "LESS_THAN": "less than",
   "EQUAL": "equals",
