@@ -6,7 +6,7 @@ export const END_OF_SURVEY = 'END_OF_SURVEY';
 
 export const MAX_TITLE_LENGTH = 255;
 
-export const MAX_QUESTIONS = 10;
+export const MAX_QUESTIONS = 100;
 export const MIN_QUESTIONS = 0;
 
 export const MAX_OPTIONS = 8;

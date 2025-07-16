@@ -137,6 +137,7 @@ export default async function handler(
           displayTitle,
           accentColor,
           hideProgressBar,
+          // displayLogo,
         } = req.body as CreateEditSurveyPayload;
 
         if (!isSurveyValid(req.body)) {
@@ -194,6 +195,7 @@ export default async function handler(
             displayTitle,
             accentColor,
             hideProgressBar,
+            // displayLogo,
           },
         });
 

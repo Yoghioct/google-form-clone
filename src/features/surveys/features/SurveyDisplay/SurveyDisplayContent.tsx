@@ -8,18 +8,26 @@ import clsx from 'clsx';
 import NoSurveys from '/public/images/no-surveys.svg';
 import Image from 'next/image';
 import Logo from 'layout/Logo/Logo';
+import LogoCompany from 'layout/Logo/LogoCompany';
 
 export default function SurveyDisplayContent() {
   const { formData, isSurveyFinished, previewMode } = useSurveyDisplayContext();
 
   return (
     <div className="w-full">
+
+      
       {isSurveyFinished ? (
         <div className={clsx(previewMode && 'mb-12 mt-6')}>
           <ThankYou />
         </div>
       ) : formData?.isActive ? (
         <>
+          {/* <div className="fixed inset-x-0 top-0 flex justify-center mt-4"> */}
+          <div className='flex justify-center m-6'>
+            <LogoCompany width={220} />
+          </div>
+
           {formData.oneQuestionPerStep ? (
             <OneQuestionView />
           ) : (

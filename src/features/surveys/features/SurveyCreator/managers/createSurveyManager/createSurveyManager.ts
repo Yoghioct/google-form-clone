@@ -31,6 +31,7 @@ export interface SurveyOptions {
   displayTitle: boolean;
   hideProgressBar: boolean;
   accentColor: string;
+  displayLogo: boolean;
 }
 
 export enum ComparisonType {
@@ -76,6 +77,7 @@ export const useCreateSurveyManager = (initialData?: SurveyWithQuestions) => {
     displayTitle: initialData?.displayTitle ?? false,
     hideProgressBar: initialData?.hideProgressBar ?? false,
     accentColor: initialData?.accentColor ?? '#7E00C3',
+    displayLogo: initialData?.displayLogo ?? true,
   });
 
   const [error, setError] = useState('');
@@ -343,6 +345,7 @@ export const useCreateSurveyManager = (initialData?: SurveyWithQuestions) => {
       displayTitle: surveyOptions.displayTitle,
       hideProgressBar: surveyOptions.hideProgressBar,
       accentColor: surveyOptions.accentColor,
+      displayLogo: surveyOptions.displayLogo,
       questions: questions.map((question) => ({
         draftId: question.draftId,
         title: question.title,

@@ -36,6 +36,16 @@ export default function SurveyOptionsModalModal({
             label={t('surveyOptionsModal.DisplayTitle')}
           />
 
+          {/* <Toggle
+            isEnabled={surveyOptions.displayLogo}
+            classNames="gap-2 mb-4"
+            testId="display-logo-toggle"
+            onToggle={() => {
+              updateOptions('displayLogo', !surveyOptions.displayLogo);
+            }}
+            label={t('surveyOptionsModal.DisplayLogo')}
+          /> */}
+
           <hr className="my-4" />
 
           <Toggle

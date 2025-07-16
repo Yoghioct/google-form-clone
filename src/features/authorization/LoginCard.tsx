@@ -33,7 +33,7 @@ export default function LoginCard() {
       >
         {({ values, errors, handleChange, handleSubmit, touched }) => (
           <Form className="flex w-full flex-col">
-            <LoginButton
+            {/* <LoginButton
               isLoading={isGoogleLoading}
               image={Google}
               onClick={onGoogleLogin}
@@ -48,7 +48,7 @@ export default function LoginCard() {
             >
               {t('login:githubButton')}
             </LoginButton>
-            <p>{t('login:or')}</p>
+            <p>{t('login:or')}</p> */}
 
             <Input
               type="email"
@@ -84,14 +84,14 @@ export default function LoginCard() {
                 {t('login:signInButton')}
               </LoginButton>
             </div>
-            <Link scroll={false} href={'/signup'} passHref>
+            {/* <Link scroll={false} href={'/signup'} passHref>
               <p
                 data-test-id="signup-link"
                 className="mt-2 text-center text-sm text-zinc-600 underline hover:cursor-pointer"
               >
                 {t('login:dontHaveAccount')}
               </p>
-            </Link>
+            </Link> */}
           </Form>
         )}
       </Formik>

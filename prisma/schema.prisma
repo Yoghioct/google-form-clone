@@ -72,9 +72,10 @@ model Survey {
   questions          Question[]
   answers            Answer[]
   oneQuestionPerStep Boolean
-  displayTitle Boolean
-  hideProgressBar Boolean?
-  accentColor String?
+  displayTitle       Boolean
+  hideProgressBar    Boolean?
+  accentColor        String?
+  displayLogo       Boolean? @default(true)
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

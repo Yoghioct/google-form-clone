@@ -5,4 +5,5 @@ export type SurveyWithAnswers = Survey & {
     answerData: AnswerData[];
   })[];
   questions: Question[];
+  displayLogo?: boolean;
 };

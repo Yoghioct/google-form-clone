@@ -36,6 +36,7 @@
     "title": "Display options",
     "OneQuestionPerStep": "One question per step",
     "DisplayTitle": "Display title",
+    "DisplayLogo": "Display logo",
     "HideProgressBar": "Hide progress bar"
   },
   "questionType": {

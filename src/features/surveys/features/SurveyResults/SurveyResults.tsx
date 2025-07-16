@@ -20,6 +20,8 @@ import Tabs from 'shared/components/Tabs/Tabs';
 import { useSurveyResultsContext } from 'features/surveys/features/SurveyResults/managers/context';
 import SummaryResults from 'features/surveys/features/SurveyResults/components/SummaryResults/SummaryResults';
 import IndividualResults from 'features/surveys/features/SurveyResults/components/IndividualResults/IndividualResults';
+import * as XLSX from 'xlsx';
+import ExcelIcon from 'shared/components/icons/ExcelIcon';
 
 export default function SurveyResults() {
   const { t } = useTranslation('surveyAnswer');
@@ -50,6 +52,31 @@ export default function SurveyResults() {
 
   const handleEditSurvey = () => {
     router.push(`/survey/edit/${surveyId}`);
+  };
+
+  const handleExportExcel = () => {
+    if (!surveyData?.answers || !surveyData?.questions) return;
+    const headers = ['Timestamp', ...surveyData.questions.map(q => q.title)];
+    const rows = surveyData.answers.map(answerObj => {
+      const row: Record<string, string> = {};
+      row['Timestamp'] = answerObj.createdAt ? new Date(answerObj.createdAt).toLocaleString() : '';
+      surveyData.questions.forEach(q => {
+        if (q.type === 'SECTION') {
+          row[q.title] = q.title;
+        } else {
+          const found = answerObj.answerData.find(a => a.questionId === q.id);
+          row[q.title] = found ? (found.providedAnswer || '') : '';
+        }
+      });
+      return row;
+    });
+    
+    // Create worksheet and workbook
+    const ws = XLSX.utils.json_to_sheet(rows, { header: headers });
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Answers');
+    // Download
+    XLSX.writeFile(wb, `survey_answers_${surveyId}.xlsx`);
   };
 
   return (
@@ -89,8 +116,16 @@ export default function SurveyResults() {
             onClick={getSurveyData}
             isLoading={isDataLoading}
             className="grow sm:grow-0"
-            variant={ButtonVariant.OUTLINE}
+            variant={ButtonVariant.PRIMARY}
             icon={<RefreshIcon className="h-5 w-5" />}
+          />
+
+          <Button
+            title={t('exportAnswerTitle')}
+            onClick={handleExportExcel}
+            className="grow sm:grow-0"
+            variant={ButtonVariant.SUCCESS}
+            icon={<ExcelIcon className="h-5 w-5" />}
           />
 
           <Button
