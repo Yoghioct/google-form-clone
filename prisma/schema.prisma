@@ -79,6 +79,7 @@ model Survey {
   showDisclaimer    Boolean   @default(false)
   disclaimerTitle   String?   @db.Text
   disclaimerBody    String?   @db.Text
+  thankYouLogic     Json?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

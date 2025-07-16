@@ -73,12 +73,12 @@ export default function SurveyDisplayContent() {
 
   return (
     <div className="w-full">
-      <div className='flex justify-center m-6'>
-        <LogoCompany width={220} />
-      </div>
+          <div className='flex justify-center m-6'>
+            <LogoCompany width={220} />
+          </div>
       {formData.oneQuestionPerStep ? <OneQuestionView /> : <AllQuestionsView />}
-      {formData.questions.length === 0 && (
-        <p>There are no questions in this survey</p>
+          {formData.questions.length === 0 && (
+              <p>There are no questions in this survey</p>
       )}
     </div>
   );

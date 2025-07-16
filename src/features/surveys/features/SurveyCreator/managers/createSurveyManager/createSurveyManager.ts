@@ -93,6 +93,8 @@ export const useCreateSurveyManager = (initialData?: SurveyWithQuestions) => {
   const [disclaimerTitle, setDisclaimerTitle] = useState(initialData?.disclaimerTitle ?? '');
   const [disclaimerBody, setDisclaimerBody] = useState(initialData?.disclaimerBody ?? '');
 
+  const [thankYouLogic, setThankYouLogic] = useState<any>(initialData?.thankYouLogic ?? []);
+
   const signInToCreateSurvey = () => {
     router.push('/login');
   };
@@ -353,6 +355,7 @@ export const useCreateSurveyManager = (initialData?: SurveyWithQuestions) => {
       showDisclaimer,
       disclaimerTitle,
       disclaimerBody,
+      thankYouLogic,
       questions: questions.map((question) => ({
         draftId: question.draftId,
         title: question.title,
@@ -566,6 +569,8 @@ export const useCreateSurveyManager = (initialData?: SurveyWithQuestions) => {
     setDisclaimerTitle,
     disclaimerBody,
     setDisclaimerBody,
+    thankYouLogic,
+    setThankYouLogic,
   };
 };
 

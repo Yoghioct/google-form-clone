@@ -37,6 +37,7 @@ export interface CreateEditSurveyPayload {
   showDisclaimer?: boolean;
   disclaimerTitle?: string;
   disclaimerBody?: string;
+  thankYouLogic?: any;
 }
 
 export async function getAllUserSurveys(userId: string) {
@@ -106,6 +107,7 @@ export default async function handler(
           showDisclaimer,
           disclaimerTitle,
           disclaimerBody,
+          thankYouLogic,
         } = req.body as CreateEditSurveyPayload;
 
         if (!isSurveyValid(req.body)) {
@@ -126,6 +128,7 @@ export default async function handler(
             showDisclaimer,
             disclaimerTitle,
             disclaimerBody,
+            thankYouLogic,
             questions: {
               create: payloadQuestions.map((question, index) => ({
                 type: question.type,

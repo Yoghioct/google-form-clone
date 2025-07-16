@@ -6,4 +6,5 @@ export type SurveyWithQuestions = Survey & {
   showDisclaimer?: boolean;
   disclaimerTitle?: string;
   disclaimerBody?: string;
+  thankYouLogic?: any;
 };

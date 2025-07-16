@@ -24,6 +24,10 @@ import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import Toggle from 'shared/components/Toggle/Toggle';
 
+const LOGIC_OPERATORS = [
+  '==', '!=', '>', '<', '>=', '<=', '+', '-', 'contains'
+];
+
 export default function TitleAndConfigSection() {
   const { t } = useTranslation('surveyCreate');
 
@@ -41,6 +45,9 @@ export default function TitleAndConfigSection() {
     setDisclaimerTitle,
     disclaimerBody,
     setDisclaimerBody,
+    thankYouLogic,
+    setThankYouLogic,
+    questions,
   } = useSurveyCreatorContext();
 
   const { togglePanel, isPanelOpened } = usePreviewPanelContext();
@@ -52,6 +59,42 @@ export default function TitleAndConfigSection() {
   } = useModal();
 
   const [disclaimerOpen, setDisclaimerOpen] = useState(showDisclaimer);
+  const [thankYouLogicOpen, setThankYouLogicOpen] = useState(false);
+
+  // Helper: get question label
+  const getQuestionLabel = (q, idx) => `Q${idx + 1}: ${q.title}`;
+
+  // Handler: add rule
+  const addRule = () => {
+    setThankYouLogic([
+      ...thankYouLogic,
+      { conditions: [{ question: '', operator: '==', value: '' }], message: '' },
+    ]);
+  };
+  // Handler: remove rule
+  const removeRule = (i) => {
+    setThankYouLogic(thankYouLogic.filter((_, idx) => idx !== i));
+  };
+  // Handler: update rule
+  const updateRule = (i, rule) => {
+    setThankYouLogic(thankYouLogic.map((r, idx) => (idx === i ? rule : r)));
+  };
+  // Handler: add condition to rule
+  const addCondition = (i) => {
+    const rule = thankYouLogic[i];
+    updateRule(i, { ...rule, conditions: [...rule.conditions, { question: '', operator: '==', value: '' }] });
+  };
+  // Handler: remove condition from rule
+  const removeCondition = (i, ci) => {
+    const rule = thankYouLogic[i];
+    updateRule(i, { ...rule, conditions: rule.conditions.filter((_, idx) => idx !== ci) });
+  };
+  // Handler: update condition in rule
+  const updateCondition = (i, ci, cond) => {
+    const rule = thankYouLogic[i];
+    const newConds = rule.conditions.map((c, idx) => (idx === ci ? { ...c, ...cond } : c));
+    updateRule(i, { ...rule, conditions: newConds });
+  };
 
   return (
     <>
@@ -157,6 +200,76 @@ export default function TitleAndConfigSection() {
               </div>
             </div>
             */}
+          </div>
+        )}
+      </div>
+
+      {/* Custom Thank You Logic Section */}
+      <div className="mt-4 p-4 border rounded bg-gray-50">
+        <div className="flex items-center mb-2 font-semibold text-gray-700">
+          <button
+            type="button"
+            className="btn relative flex items-center justify-center btn-secondary h-[38px] px-3 py-1 text-sm bg-secondary-50 mr-2"
+            onClick={() => setThankYouLogicOpen(!thankYouLogicOpen)}
+            aria-label={thankYouLogicOpen ? 'Tutup custom thank you logic' : 'Buka custom thank you logic'}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" aria-hidden="true" className={`w-[15px] transition-transform ${thankYouLogicOpen ? '' : '-rotate-90'}`}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"></path></svg>
+          </button>
+          <span className="flex-1">Custom Thank You Logic</span>
+        </div>
+        {thankYouLogicOpen && (
+          <div className="space-y-4 mt-2">
+            {thankYouLogic.map((rule, i) => (
+              <div key={i} className="border rounded p-3 bg-white">
+                <div className="flex items-center mb-2">
+                  <span className="font-semibold text-sm text-gray-700 mr-2">Rule {i + 1}</span>
+                  <button type="button" className="ml-auto text-xs text-red-500" onClick={() => removeRule(i)}>Hapus Rule</button>
+                </div>
+                {rule.conditions.map((cond, ci) => (
+                  <div key={ci} className="flex items-center gap-2 mb-2">
+                    <select
+                      className="border rounded px-1 py-0.5 text-sm"
+                      value={cond.question}
+                      onChange={e => updateCondition(i, ci, { question: e.target.value })}
+                    >
+                      <option value="">Pilih pertanyaan</option>
+                      {questions.map((q, idx) => (
+                        <option key={q.draftId || q.id} value={q.draftId || q.id}>{getQuestionLabel(q, idx)}</option>
+                      ))}
+                    </select>
+                    <select
+                      className="border rounded px-1 py-0.5 text-sm"
+                      value={cond.operator}
+                      onChange={e => updateCondition(i, ci, { operator: e.target.value })}
+                    >
+                      {LOGIC_OPERATORS.map(op => (
+                        <option key={op} value={op}>{op}</option>
+                      ))}
+                    </select>
+                    <input
+                      className="border rounded px-1 py-0.5 text-sm"
+                      value={cond.value}
+                      onChange={e => updateCondition(i, ci, { value: e.target.value })}
+                      placeholder="Nilai atau Q..."
+                    />
+                    {rule.conditions.length > 1 && (
+                      <button type="button" className="text-xs text-red-400" onClick={() => removeCondition(i, ci)}>Hapus</button>
+                    )}
+                  </div>
+                ))}
+                <button type="button" className="text-xs text-blue-600 mb-2" onClick={() => addCondition(i)}>+ Tambah Kondisi</button>
+                <div>
+                  <label className="block text-xs font-medium text-gray-700 mb-1">Pesan jika rule match</label>
+                  <textarea
+                    className="w-full border rounded px-2 py-1 min-h-[40px] text-sm"
+                    value={rule.message}
+                    onChange={e => updateRule(i, { ...rule, message: e.target.value })}
+                    placeholder="Pesan yang akan ditampilkan"
+                  />
+                </div>
+              </div>
+            ))}
+            <button type="button" className="text-xs text-blue-600" onClick={addRule}>+ Tambah Rule</button>
           </div>
         )}
       </div>

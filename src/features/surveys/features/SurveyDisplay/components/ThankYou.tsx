@@ -1,29 +1,108 @@
 import React from 'react';
 import Image from 'next/image';
 import useTranslation from 'next-translate/useTranslation';
+import { useSurveyDisplayContext } from 'features/surveys/features/SurveyDisplay/context';
+import ReactMarkdown from 'react-markdown';
+import { CheckCircleIcon } from '@heroicons/react/solid';
+
+// function mapAnswerToScore(answer: string) {
+//   if (!answer) return 0;
+//   const a = answer.toLowerCase();
+//   if (a.includes('tidak sama sekali')) return 0;
+//   if (a.includes('kurang dari 1')) return 1;
+//   if (a.includes('lebih dari 1')) return 2;
+//   if (a.includes('hampir setiap hari')) return 3;
+//   const n = Number(answer);
+//   if (!isNaN(n)) return n;
+//   return 0;
+// }
+
+function evalCondition(cond, questionsById) {
+  
+  // const left = questionsById[cond.question] ? mapAnswerToScore(questionsById[cond.question].answer) : 0;
+  let left = questionsById[cond.question].answer;
+  let right = cond.value;
+  
+  // console.log(questionsById[cond.question].answer);
+  // console.log(cond.value);
+  // console.log(right);
+
+  // if (questionsById[cond.value]) {
+  //   right = mapAnswerToScore(questionsById[cond.value].answer);
+  // } else if (!isNaN(Number(cond.value))) {
+  //   right = Number(cond.value);
+  // }
+
+  switch (cond.operator) {
+    case '==': return String(left).trim().toLowerCase() === String(right).trim().toLowerCase();
+    case '!=': return left != right;
+    case '>': return left > right;
+    case '<': return left < right;
+    case '>=': return left >= right;
+    case '<=': return left <= right;
+    case '+': return left + right == Number(cond.value);
+    case '-': return left - right == Number(cond.value);
+    case 'contains': return String(left).includes(String(right));
+    default: return false;
+  }
+}
 
 export default function ThankYou() {
   const { t } = useTranslation('thankyou');
+  const { formData } = useSurveyDisplayContext();
+
+  let customMessages: string[] = [];
+  if (formData?.thankYouLogic && Array.isArray(formData.thankYouLogic)) {
+    const questionsById = {};
+
+    formData.questions.forEach(q => {
+      questionsById[q.draftId || q.id] = q;
+    });
+
+
+    // console.log('DEBUG thankYouLogic:', formData.thankYouLogic);
+    // console.log('DEBUG questionsById:', questionsById);
+    customMessages = formData.thankYouLogic.filter((rule, idx) => {
+      const condResults = rule.conditions.map(cond => evalCondition(cond, questionsById));
+      return rule.conditions.every((cond, ci) => condResults[ci]);
+    }).map(rule => rule.message).filter(Boolean);
+  }
+
+  // console.log('customMessages:', customMessages);
+
+  // if (customMessages.length > 0) {
+  //   return <pre>{customMessages}</pre>
+  // }
 
   return (
-    <div className="my-4 flex flex-col items-center justify-center">
-      {/* <Image
-        src="/images/thankyou.svg"
-        alt="thankyou"
-        height="151"
-        width="140"
-      /> */}
+    <div className="my-8 flex flex-col items-center justify-center">
+      <div className="flex flex-col items-center">
+        <CheckCircleIcon className="w-16 h-16 text-green-500 mb-2" />
+        <h1
+          data-test-id="thank-you-header"
+          className="leading-tighter mt-2 text-3xl font-extrabold tracking-tighter text-center"
+        >
+          {t('firstPartHeading')}&nbsp;
+          <span className="text-purple-700">{t('secondPartHeading')}</span>
+        </h1>
+        <p className="text-md mt-2 max-w-lg text-zinc-600 text-center">{t('content')}</p>
+      </div>
 
-      <h1
-        data-test-id="thank-you-header"
-        className="leading-tighter mt-4 text-3xl font-extrabold tracking-tighter"
-      >
-        {t('firstPartHeading')}&nbsp;
-        <span className="text-purple-700">{t('secondPartHeading')}</span>
-      </h1>
-      <p className="text-md mt-2 max-w-lg text-zinc-600">{t('content')}</p>
+      <div className="mt-8 w-full max-w-xl text-left">
+        {customMessages.length > 0 ? (
+          <>
+            <div className="mb-2 text-lg font-semibold text-gray-700 text-center">Hasil:</div>
+            {customMessages.map((msg, i) => (
+              <div key={i} className="mb-4 p-4 bg-purple-50 border border-purple-200 rounded shadow-sm">
+                <ReactMarkdown>{msg || '*[Pesan kosong]*'}</ReactMarkdown>
+              </div>
+            ))}
 
-      {/* custom result */}
+          </>
+        ) : (
+          <></>
+        )}
+      </div>
     </div>
   );
 }

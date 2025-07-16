@@ -141,6 +141,7 @@ export default async function handler(
           showDisclaimer,
           disclaimerTitle,
           disclaimerBody,
+          thankYouLogic,
         } = req.body as CreateEditSurveyPayload;
 
         if (!isSurveyValid(req.body)) {
@@ -202,6 +203,7 @@ export default async function handler(
             showDisclaimer,
             disclaimerTitle,
             disclaimerBody,
+            thankYouLogic,
           },
         });
 
