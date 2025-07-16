@@ -20,6 +20,9 @@ export type DraftQuestionWithAnswer = QuestionWithLogicPath & {
 
 export type SurveyWithQuestionsAndUsersAnswers = Survey & {
   questions: DraftQuestionWithAnswer[];
+  showDisclaimer?: boolean;
+  disclaimerTitle?: string;
+  disclaimerBody?: string;
 };
 
 export const useSurveyAnswerManager = (

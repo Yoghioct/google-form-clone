@@ -20,14 +20,14 @@ export default function QuestionsSection() {
         <Note title={t('editNoteTitle')} description={t('editNote')} />
       )}
 
-      <div className="block md:hidden">
+      {/* <div className="block md:hidden">
         <Note
           title={'Note'}
           description={
             'Some actions, such as advanced settings, are not available on low resolution devices.'
           }
         />
-      </div>
+      </div> */}
 
       <DragDropContext onDragEnd={onDragQuestionEnd}>
         {isBrowser ? (

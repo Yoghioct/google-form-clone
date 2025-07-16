@@ -76,6 +76,9 @@ model Survey {
   hideProgressBar    Boolean?
   accentColor        String?
   displayLogo       Boolean? @default(true)
+  showDisclaimer    Boolean   @default(false)
+  disclaimerTitle   String?   @db.Text
+  disclaimerBody    String?   @db.Text
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

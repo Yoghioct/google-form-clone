@@ -11,7 +11,7 @@
     border-color: #d4d6da;
   }
   * {
-    font-family: 'Montserrat', 'sans-serif';
+    font-family: 'Poppins', 'Montserrat','sans-serif';
 
     ::-webkit-scrollbar-track {
       @apply bg-white rounded-md;
@@ -95,7 +95,7 @@
 
 em-emoji-picker {
   --category-icon-size: 18px;
-  --font-family: Montserrat, 'sans-serif';
+  --font-family: Poppins, 'sans-serif';
 
   --rgb-accent: 165, 180, 252;
 
@@ -106,4 +106,12 @@ em-emoji-picker {
 
 em-emoji {
   line-height: 0.9;
+}
+
+.prose strong {
+  font-weight: 600 !important;
+}
+
+.prose b {
+  font-weight: 600 !important;
 }

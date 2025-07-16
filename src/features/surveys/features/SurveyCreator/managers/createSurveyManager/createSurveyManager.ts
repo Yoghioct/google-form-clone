@@ -89,6 +89,10 @@ export const useCreateSurveyManager = (initialData?: SurveyWithQuestions) => {
 
   const [isTemplatePicked, setIsTemplatePicked] = useState(false);
 
+  const [showDisclaimer, setShowDisclaimer] = useState(initialData?.showDisclaimer ?? false);
+  const [disclaimerTitle, setDisclaimerTitle] = useState(initialData?.disclaimerTitle ?? '');
+  const [disclaimerBody, setDisclaimerBody] = useState(initialData?.disclaimerBody ?? '');
+
   const signInToCreateSurvey = () => {
     router.push('/login');
   };
@@ -346,6 +350,9 @@ export const useCreateSurveyManager = (initialData?: SurveyWithQuestions) => {
       hideProgressBar: surveyOptions.hideProgressBar,
       accentColor: surveyOptions.accentColor,
       displayLogo: surveyOptions.displayLogo,
+      showDisclaimer,
+      disclaimerTitle,
+      disclaimerBody,
       questions: questions.map((question) => ({
         draftId: question.draftId,
         title: question.title,
@@ -553,6 +560,12 @@ export const useCreateSurveyManager = (initialData?: SurveyWithQuestions) => {
     isTemplatePicked,
     setIsTemplatePicked,
     updateQuestionDescription,
+    showDisclaimer,
+    setShowDisclaimer,
+    disclaimerTitle,
+    setDisclaimerTitle,
+    disclaimerBody,
+    setDisclaimerBody,
   };
 };
 

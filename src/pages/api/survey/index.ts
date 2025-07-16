@@ -34,6 +34,9 @@ export interface CreateEditSurveyPayload {
   hideProgressBar: boolean;
   accentColor: string;
   displayLogo?: boolean;
+  showDisclaimer?: boolean;
+  disclaimerTitle?: string;
+  disclaimerBody?: string;
 }
 
 export async function getAllUserSurveys(userId: string) {
@@ -100,6 +103,9 @@ export default async function handler(
           hideProgressBar,
           accentColor,
           displayLogo,
+          showDisclaimer,
+          disclaimerTitle,
+          disclaimerBody,
         } = req.body as CreateEditSurveyPayload;
 
         if (!isSurveyValid(req.body)) {
@@ -116,7 +122,10 @@ export default async function handler(
             oneQuestionPerStep,
             displayTitle,
             hideProgressBar,
-            // displayLogo: displayLogo ?? true,  
+            displayLogo,
+            showDisclaimer,
+            disclaimerTitle,
+            disclaimerBody,
             questions: {
               create: payloadQuestions.map((question, index) => ({
                 type: question.type,

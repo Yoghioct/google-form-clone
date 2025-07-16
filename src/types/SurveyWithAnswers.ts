@@ -6,4 +6,7 @@ export type SurveyWithAnswers = Survey & {
   })[];
   questions: Question[];
   displayLogo?: boolean;
+  showDisclaimer?: boolean;
+  disclaimerTitle?: string;
+  disclaimerBody?: string;
 };
