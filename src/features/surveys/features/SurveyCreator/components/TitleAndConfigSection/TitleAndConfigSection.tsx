@@ -67,6 +67,7 @@ export default function TitleAndConfigSection() {
 
   const [disclaimerOpen, setDisclaimerOpen] = useState(showDisclaimer);
   const [thankYouLogicOpen, setThankYouLogicOpen] = useState(false);
+  const [thankYouLogicEnabled, setThankYouLogicEnabled] = useState(false);
 
   // Quill editor configuration
   const quillModules = {
@@ -87,7 +88,7 @@ export default function TitleAndConfigSection() {
   ];
 
   // Helper: get question label
-  const getQuestionLabel = (q, idx) => `Q${idx + 1}: ${q.title}`;
+  const getQuestionLabel = (q: any, idx: number) => `Q${idx + 1}: ${q.title}`;
 
   // Handler: add rule
   const addRule = () => {
@@ -97,32 +98,33 @@ export default function TitleAndConfigSection() {
     ]);
   };
   // Handler: remove rule
-  const removeRule = (i) => {
+  const removeRule = (i: number) => {
     setThankYouLogic(thankYouLogic.filter((_, idx) => idx !== i));
   };
   // Handler: update rule
-  const updateRule = (i, rule) => {
+  const updateRule = (i: number, rule: any) => {
     setThankYouLogic(thankYouLogic.map((r, idx) => (idx === i ? rule : r)));
   };
   // Handler: add condition to rule
-  const addCondition = (i) => {
+  const addCondition = (i: number) => {
     const rule = thankYouLogic[i];
     updateRule(i, { ...rule, conditions: [...rule.conditions, { question: '', operator: '==', value: '' }] });
   };
   // Handler: remove condition from rule
-  const removeCondition = (i, ci) => {
+  const removeCondition = (i: number, ci: number) => {
     const rule = thankYouLogic[i];
-    updateRule(i, { ...rule, conditions: rule.conditions.filter((_, idx) => idx !== ci) });
+    updateRule(i, { ...rule, conditions: rule.conditions.filter((_: any, idx: number) => idx !== ci) });
   };
   // Handler: update condition in rule
-  const updateCondition = (i, ci, cond) => {
+  const updateCondition = (i: number, ci: number, cond: any) => {
     const rule = thankYouLogic[i];
-    const newConds = rule.conditions.map((c, idx) => (idx === ci ? { ...c, ...cond } : c));
+    const newConds = rule.conditions.map((c: any, idx: number) => (idx === ci ? { ...c, ...cond } : c));
     updateRule(i, { ...rule, conditions: newConds });
   };
 
   return (
     <>
+      
       <div className="flex flex-col gap-x-2 sm:flex-row">
         {!isEditMode && (
           <Button
@@ -183,7 +185,12 @@ export default function TitleAndConfigSection() {
           <button
             type="button"
             className="btn relative flex items-center justify-center btn-secondary h-[38px] px-3 py-1 text-sm bg-secondary-50 mr-2"
-            onClick={() => setDisclaimerOpen(!disclaimerOpen)}
+            // onClick={() => setDisclaimerOpen(!disclaimerOpen)}
+            onClick={() => {
+              if (showDisclaimer) {
+                setDisclaimerOpen(!disclaimerOpen);
+              }
+            }}
             aria-label={disclaimerOpen ? 'Tutup disclaimer' : 'Buka disclaimer'}
           >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" aria-hidden="true" className={`w-[15px] transition-transform ${disclaimerOpen ? '' : '-rotate-90'}`}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"></path></svg>
@@ -197,7 +204,6 @@ export default function TitleAndConfigSection() {
         </div>
         {showDisclaimer && disclaimerOpen && (
           <div className="space-y-2 mt-2">
-            <label className="block text-sm font-medium text-gray-700">Judul disclaimer (markdown, bisa bold)</label>
             <input
               type="text"
               className="w-full border rounded px-2 py-1 text-sm"
@@ -205,7 +211,6 @@ export default function TitleAndConfigSection() {
               value={disclaimerTitle}
               onChange={e => setDisclaimerTitle(e.target.value)}
             />
-            <label className="block text-sm font-medium text-gray-700">Isi disclaimer (rich text editor)</label>
             <div className="border rounded">
               <ReactQuill
                 theme="snow"
@@ -214,7 +219,11 @@ export default function TitleAndConfigSection() {
                 modules={quillModules}
                 formats={quillFormats}
                 placeholder="Tulis isi disclaimer di sini..."
-                // style={{ minHeight: '200px' }}
+                style={{ 
+                  minHeight: '120px',
+                  fontSize: '14px'
+                }}
+                className="quill-editor-custom"
               />
             </div>
             {/* <div className="text-xs text-gray-500 mb-2">
@@ -225,64 +234,108 @@ export default function TitleAndConfigSection() {
       </div>
 
       {/* Custom Thank You Logic Section */}
-      <div className="mt-4 p-4 border rounded bg-gray-50">
+      <div className="mt-4 p-4 border rounded bg-gray-50 w-full">
         <div className="flex items-center mb-2 font-semibold text-gray-700">
           <button
             type="button"
             className="btn relative flex items-center justify-center btn-secondary h-[38px] px-3 py-1 text-sm bg-secondary-50 mr-2"
-            onClick={() => setThankYouLogicOpen(!thankYouLogicOpen)}
+            onClick={() => {
+              if (thankYouLogicEnabled) {
+                setThankYouLogicOpen(!thankYouLogicOpen);
+              }
+            }}
             aria-label={thankYouLogicOpen ? 'Tutup custom thank you logic' : 'Buka custom thank you logic'}
           >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" aria-hidden="true" className={`w-[15px] transition-transform ${thankYouLogicOpen ? '' : '-rotate-90'}`}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"></path></svg>
           </button>
           <span className="flex-1">Custom Thank You Logic</span>
+          <Toggle
+            isEnabled={thankYouLogicEnabled}
+            onToggle={v => { 
+              setThankYouLogicEnabled(v); 
+              if (v) {
+                setThankYouLogicOpen(true);
+              } else {
+                setThankYouLogicOpen(false);
+              }
+            }}
+            classNames="ml-2"
+          />
         </div>
-        {thankYouLogicOpen && (
-          <div className="space-y-4 mt-2">
-            {thankYouLogic.map((rule, i) => (
-              <div key={i} className="border rounded p-3 bg-white">
-                <div className="flex items-center mb-2">
-                  <span className="font-semibold text-sm text-gray-700 mr-2">Rule {i + 1}</span>
-                  <button type="button" className="ml-auto text-xs text-red-500" onClick={() => removeRule(i)}>Hapus Rule</button>
+        {thankYouLogicEnabled && thankYouLogicOpen && (
+          <div className="space-y-4 mt-2 w-full">
+            {thankYouLogic.map((rule: any, i: number) => (
+              <div key={i} className="border rounded p-3 bg-white w-full">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="font-semibold text-sm text-gray-700">Rule {i + 1}</span>
+                  <button 
+                    type="button" 
+                    className="text-xs text-red-500 hover:text-red-700 transition-colors px-2 py-1 rounded hover:bg-red-50" 
+                    onClick={() => removeRule(i)}
+                  >
+                    Hapus Rule
+                  </button>
                 </div>
-                {rule.conditions.map((cond, ci) => (
-                  <div key={ci} className="flex items-center gap-2 mb-2">
-                    <select
-                      className="border rounded px-1 py-0.5 text-sm"
-                      value={cond.question}
-                      onChange={e => updateCondition(i, ci, { question: e.target.value })}
-                    >
-                      <option value="">Pilih pertanyaan</option>
-                      {questions.map((q, idx) => (
-                        <option key={q.draftId || q.id} value={q.draftId || q.id}>{getQuestionLabel(q, idx)}</option>
-                      ))}
-                    </select>
-                    <select
-                      className="border rounded px-1 py-0.5 text-sm"
-                      value={cond.operator}
-                      onChange={e => updateCondition(i, ci, { operator: e.target.value })}
-                    >
-                      {LOGIC_OPERATORS.map(op => (
-                        <option key={op} value={op}>{op}</option>
-                      ))}
-                    </select>
-                    <input
-                      className="border rounded px-1 py-0.5 text-sm"
-                      value={cond.value}
-                      onChange={e => updateCondition(i, ci, { value: e.target.value })}
-                      placeholder="Nilai"
-                    />
-                    {rule.conditions.length > 1 && (
-                      <button type="button" className="text-xs text-red-400" onClick={() => removeCondition(i, ci)}>Hapus</button>
-                    )}
+                {rule.conditions.map((cond: any, ci: number) => (
+                  <div key={ci} className="space-y-2 mb-3">
+                    <div className="flex flex-col sm:flex-row gap-2 w-full items-end">
+                      <div className="flex-1 min-w-0">
+                        <select
+                          className="w-full border rounded px-3 py-2 h-10 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                          value={cond.question}
+                          onChange={e => updateCondition(i, ci, { question: e.target.value })}
+                        >
+                          <option value="">Pilih pertanyaan</option>
+                          {questions.map((q: any, idx: number) => (
+                            <option key={q.draftId || q.id} value={q.draftId || q.id}>{getQuestionLabel(q, idx)}</option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <select
+                          className="w-full border rounded px-3 py-2 h-10 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                          value={cond.operator}
+                          onChange={e => updateCondition(i, ci, { operator: e.target.value })}
+                        >
+                          {LOGIC_OPERATORS.map((op: string) => (
+                            <option key={op} value={op}>{op}</option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <input
+                          className="w-full border rounded px-3 py-2 h-10 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                          value={cond.value}
+                          onChange={e => updateCondition(i, ci, { value: e.target.value })}
+                          placeholder="Nilai"
+                        />
+                      </div>
+                      {rule.conditions.length > 1 && (
+                        <div className="flex-shrink-0 w-full sm:w-auto">
+                          <button 
+                            type="button" 
+                            className="w-full sm:w-auto px-3 py-2 h-10 text-xs font-medium text-white bg-red-600 hover:bg-red-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 rounded transition-colors duration-200" 
+                            onClick={() => removeCondition(i, ci)}
+                          >
+                            Hapus
+                          </button>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 ))}
-                <button type="button" className="text-xs text-blue-600 mb-2" onClick={() => addCondition(i)}>+ Tambah Condition</button>
-                <div className="mt-2">
-                  <label className="block text-xs font-medium text-gray-700 mb-1">Pesan jika rule match</label>
+                <button 
+                  type="button" 
+                  className="text-xs text-blue-600 hover:text-blue-800 transition-colors mb-3 px-2 py-1 rounded hover:bg-blue-50" 
+                  onClick={() => addCondition(i)}
+                >
+                  + Tambah Condition
+                </button>
+                <div className="mt-3">
+                  <label className="block text-xs font-medium text-gray-700 mb-2">Pesan jika rule match</label>
                   <textarea
-                    className="w-full border rounded px-2 py-1 text-sm"
-                    rows={2}
+                    className="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-y"
+                    rows={3}
                     placeholder="Pesan yang akan ditampilkan jika kondisi terpenuhi"
                     value={rule.message}
                     onChange={e => updateRule(i, { ...rule, message: e.target.value })}
@@ -290,7 +343,13 @@ export default function TitleAndConfigSection() {
                 </div>
               </div>
             ))}
-            <button type="button" className="text-xs text-blue-600" onClick={addRule}>+ Tambah Rule</button>
+            <button 
+              type="button" 
+              className="text-xs text-blue-600 hover:text-blue-800 transition-colors px-3 py-2 rounded border border-blue-200 hover:bg-blue-50 w-full sm:w-auto" 
+              onClick={addRule}
+            >
+              + Tambah Rule
+            </button>
           </div>
         )}
       </div>
