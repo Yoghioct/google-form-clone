@@ -41,8 +41,8 @@ export default function SurveyDisplayContent() {
         <div className="max-h-60 overflow-y-auto border p-3 mb-4 bg-gray-50 rounded text-left">
           <div className="prose prose-gray prose-sm">
             <ReactMarkdown
-              remarkPlugins={[remarkGfm]}
-              rehypePlugins={[rehypeRaw]}
+              // remarkPlugins={[remarkGfm]}
+              // rehypePlugins={[rehypeRaw]}
             >
               {formData.disclaimerBody}
             </ReactMarkdown>

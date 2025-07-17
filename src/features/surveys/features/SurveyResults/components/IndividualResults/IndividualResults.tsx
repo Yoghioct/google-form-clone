@@ -93,6 +93,10 @@ export default function IndividualResults() {
                   <p className="mb-3 mt-4">{answer}</p>
                 )}
 
+                {questionType === QuestionType.NUMBER && (
+                  <p className="mb-3 mt-4">{answer}</p>
+                )}
+
                 {questionType === QuestionType.RATE && (
                   <div className="mb-3 flex flex-wrap justify-center gap-x-1">
                     {[...Array(5)].map((_, index) => (
@@ -134,6 +138,12 @@ export default function IndividualResults() {
                       {option.trim() || '-'}
                     </button>
                   ))}
+                {questionType === QuestionType.DATE && (
+                  <p className="mb-3 mt-4">{answer}</p>
+                )}
+                {questionType === QuestionType.TEXTAREA && (
+                  <p className="mb-3 mt-4">{answer}</p>
+                )}
               </>
             ) : (
               <div className="mb-3 mt-4 italic">No answer</div>

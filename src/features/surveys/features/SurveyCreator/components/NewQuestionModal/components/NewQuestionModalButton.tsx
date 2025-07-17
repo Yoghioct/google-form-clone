@@ -17,7 +17,7 @@ export default function NewQuestionModalButton({
   return (
     <Button
       onClick={onClick}
-      className="flex flex-col p-4 text-center sm:w-[160px]"
+      className="flex flex-col p-4 text-center grow"
       data-test-id={testSelector}
     >
       <div className="mb-[2px] w-[18px]">{icon}</div>

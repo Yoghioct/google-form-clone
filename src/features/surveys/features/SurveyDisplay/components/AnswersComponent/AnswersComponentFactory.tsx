@@ -7,8 +7,11 @@ import Button, {
 } from 'shared/components/Button/Button';
 import ChoiceComponent from 'features/surveys/features/SurveyDisplay/components/AnswersComponent/ChoiceComponent/ChoiceComponent';
 import ListAnswersComponent from 'features/surveys/features/SurveyDisplay/components/AnswersComponent/ListAnswersComponent';
+import NumberAnswersComponent from 'features/surveys/features/SurveyDisplay/components/AnswersComponent/NumberAnswersComponent';
 import RateAnswersComponent from 'features/surveys/features/SurveyDisplay/components/AnswersComponent/RateComponent/RateComponent';
 import TextAnswersComponent from 'features/surveys/features/SurveyDisplay/components/AnswersComponent/TextAnswersComponent';
+import DateAnswersComponent from 'features/surveys/features/SurveyDisplay/components/AnswersComponent/DateAnswersComponent';
+import TextareaAnswersComponent from 'features/surveys/features/SurveyDisplay/components/AnswersComponent/TextareaAnswersComponent';
 import { useSurveyDisplayContext } from 'features/surveys/features/SurveyDisplay/context';
 import { getFontColor } from 'features/surveys/features/SurveyDisplay/utils/getFontColor';
 
@@ -78,8 +81,17 @@ export const AnswersComponentFactory = (
       {currentQuestion.type === QuestionType.CHOICE && (
         <ChoiceComponent questionData={currentQuestion} />
       )}
+      {currentQuestion.type === QuestionType.NUMBER && (
+        <NumberAnswersComponent questionData={currentQuestion} />
+      )}
       {currentQuestion.type === QuestionType.RATE && (
         <RateAnswersComponent questionData={currentQuestion} />
+      )}
+      {currentQuestion.type === QuestionType.DATE && (
+        <DateAnswersComponent questionData={currentQuestion} />
+      )}
+      {currentQuestion.type === QuestionType.TEXTAREA && (
+        <TextareaAnswersComponent questionData={currentQuestion} />
       )}
 
       {formData.oneQuestionPerStep && (

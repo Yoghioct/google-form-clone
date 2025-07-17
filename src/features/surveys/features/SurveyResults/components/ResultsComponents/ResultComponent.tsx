@@ -78,7 +78,10 @@ export default function ResultComponent({
       {type === QuestionType.EMOJI && <BarChart data={chartData} emojiLabels />}
       {type === QuestionType.INPUT && <TextResults answers={notEmptyAnswers} />}
       {type === QuestionType.CHOICE && <BarChart data={chartData} />}
+      {type === QuestionType.NUMBER && <TextResults answers={notEmptyAnswers} />}
       {type === QuestionType.RATE && <BarChart data={chartData} />}
+      {type === QuestionType.DATE && <TextResults answers={notEmptyAnswers} />}
+      {type === QuestionType.TEXTAREA && <TextResults answers={notEmptyAnswers} />}
     </div>
   );
 }

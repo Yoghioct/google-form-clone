@@ -40,4 +40,28 @@ export const defaultQuestions: DraftQuestion[] = [
     expanded: false,
     advancedSettingsExpanded: false,
   },
+  {
+    draftId: v4(),
+    title: 'How many?',
+    type: QuestionType.NUMBER,
+    isRequired: false,
+    expanded: false,
+    advancedSettingsExpanded: false,
+  },
+  {
+    draftId: v4(),
+    title: 'Select a date',
+    type: QuestionType.DATE,
+    isRequired: false,
+    expanded: false,
+    advancedSettingsExpanded: false,
+  },
+  {
+    draftId: v4(),
+    title: 'Describe your experience',
+    type: QuestionType.TEXTAREA,
+    isRequired: false,
+    expanded: false,
+    advancedSettingsExpanded: false,
+  },
 ];

@@ -8,7 +8,10 @@ import EmojiIcon from 'shared/components/QuestionTypeIcons/EmojiIcon';
 import InputIcon from 'shared/components/QuestionTypeIcons/InputIcon';
 import ChoiceIcon from 'shared/components/QuestionTypeIcons/ChoiceIcon';
 import RateIcon from 'shared/components/QuestionTypeIcons/RateIcon';
+import NumberIcon from 'shared/components/QuestionTypeIcons/NumberIcon';
 import SectionIcon from 'shared/components/QuestionTypeIcons/SectionIcon';
+import DateIcon from 'shared/components/QuestionTypeIcons/DateIcon';
+import TextareaIcon from 'shared/components/QuestionTypeIcons/TextareaIcon';
 
 type NewQuestionModalProps = {
   isOpened: boolean;
@@ -58,9 +61,9 @@ export default function NewQuestionModal({
     onSuccess?.({
       draftId: v4(),
       type: QuestionType.CHOICE,
-      title: 'What came first?',
+      title: 'Are you happy?',
       isRequired: true,
-      options: ['Chicken 🐔', 'Egg 🥚'],
+      options: ['Ya', 'Tidak'],
       expanded: true,
       advancedSettingsExpanded: false,
       description: '',
@@ -73,6 +76,19 @@ export default function NewQuestionModal({
       draftId: v4(),
       type: QuestionType.RATE,
       title: 'How do you rate the process?',
+      isRequired: true,
+      expanded: true,
+      advancedSettingsExpanded: false,
+      description: '',
+    });
+  };
+
+  const addNumberQuestion = () => {
+    closeModal();
+    onSuccess?.({
+      draftId: v4(),
+      type: QuestionType.NUMBER,
+      title: 'How many?',
       isRequired: true,
       expanded: true,
       advancedSettingsExpanded: false,
@@ -93,13 +109,38 @@ export default function NewQuestionModal({
     });
   };
 
+  const addDateQuestion = () => {
+    closeModal();
+    onSuccess?.({
+      draftId: v4(),
+      type: QuestionType.DATE,
+      title: 'Select a date',
+      isRequired: true,
+      expanded: true,
+      advancedSettingsExpanded: false,
+      description: '',
+    });
+  };
+  const addTextareaQuestion = () => {
+    closeModal();
+    onSuccess?.({
+      draftId: v4(),
+      type: QuestionType.TEXTAREA,
+      title: 'Describe your experience',
+      isRequired: true,
+      expanded: true,
+      advancedSettingsExpanded: false,
+      description: '',
+    });
+  };
+
   return (
     <StyledDialog
       isOpen={isOpened}
       onClose={closeModal}
       title={'Choose block type'}
       content={
-        <div className="mt-6 flex flex-col gap-2 sm:mt-4 sm:flex-row">
+        <div className="m-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
           <NewQuestionModalButton
             onClick={addSectionQuestion}
             icon={<SectionIcon />}
@@ -125,10 +166,28 @@ export default function NewQuestionModal({
             test-selector="choice-question-button"
           />
           <NewQuestionModalButton
+            onClick={addNumberQuestion}
+            icon={<NumberIcon />}
+            text="Number"
+            test-selector="number-question-button"
+          />
+          <NewQuestionModalButton
             onClick={addRateQuestion}
             icon={<RateIcon />}
             text="Rate"
             test-selector="rate-question-button"
+          />
+          <NewQuestionModalButton
+            onClick={addDateQuestion}
+            icon={<DateIcon />}
+            text="Date"
+            test-selector="date-question-button"
+          />
+          <NewQuestionModalButton
+            onClick={addTextareaQuestion}
+            icon={<TextareaIcon />}
+            text="Textarea"
+            test-selector="textarea-question-button"
           />
 
         </div>

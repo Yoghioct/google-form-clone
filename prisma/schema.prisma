@@ -126,6 +126,9 @@ enum QuestionType {
   CHOICE
   RATE
   SECTION
+  NUMBER
+  DATE
+  TEXTAREA
 }
 
 enum ComparisonType {

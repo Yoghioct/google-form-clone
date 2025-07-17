@@ -14,5 +14,6 @@
   "atLeastOneAnswer": "Please select at least one answer.",
   "next": "Next",
   "back": "Back",
-  "finish": "Finish"
+  "finish": "Finish",
+  "textareaPlaceholder": "Type your answer here..."
 }

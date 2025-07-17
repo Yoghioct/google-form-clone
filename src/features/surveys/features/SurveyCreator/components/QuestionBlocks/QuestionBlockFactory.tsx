@@ -3,6 +3,7 @@ import { DraggableProvidedDragHandleProps } from 'react-beautiful-dnd';
 import ChoiceQuestionBlock from 'features/surveys/features/SurveyCreator/components/QuestionBlocks/ChoiceQuestionBlock/ChoiceQuestionBlock';
 import EmojiQuestionBlock from 'features/surveys/features/SurveyCreator/components/QuestionBlocks/EmojiQuestionBlock/EmojiQuestionBlock';
 import InputQuestionBlock from 'features/surveys/features/SurveyCreator/components/QuestionBlocks/InputQuestionBlock/InputQuestionBlock';
+import NumberQuestionBlock from 'features/surveys/features/SurveyCreator/components/QuestionBlocks/NumberQuestionBlock/NumberQuestionBlock';
 import QuestionBlockWrapper from 'features/surveys/features/SurveyCreator/components/QuestionBlocks/QuestionBlockWrapper/QuestionBlockWrapper';
 import RateQuestionBlock from 'features/surveys/features/SurveyCreator/components/QuestionBlocks/RateQuestionBlock/RateQuestionBlock';
 import { DraftQuestion } from 'features/surveys/features/SurveyCreator/managers/createSurveyManager/createSurveyManager';
@@ -10,6 +11,9 @@ import RateAdvancedSettings from 'features/surveys/features/SurveyCreator/compon
 import ChoiceAdvancedSettings from 'features/surveys/features/SurveyCreator/components/QuestionBlocks/AdvancedSettings/ChoiceAdvancedSettings';
 import EmojiAdvancedSettings from 'features/surveys/features/SurveyCreator/components/QuestionBlocks/AdvancedSettings/EmojiAdvancedSettings';
 import InputAdvancedSettings from 'features/surveys/features/SurveyCreator/components/QuestionBlocks/AdvancedSettings/InputAdvancedSettings';
+import NumberAdvancedSettings from 'features/surveys/features/SurveyCreator/components/QuestionBlocks/AdvancedSettings/NumberAdvancedSettings';
+import DateQuestionBlock from 'features/surveys/features/SurveyCreator/components/QuestionBlocks/DateQuestionBlock/DateQuestionBlock';
+import TextareaQuestionBlock from 'features/surveys/features/SurveyCreator/components/QuestionBlocks/TextareaQuestionBlock/TextareaQuestionBlock';
 
 interface QuestionBlockFactoryProps {
   questionData: DraftQuestion;
@@ -59,6 +63,22 @@ export default function QuestionBlockFactory({
       );
     }
 
+    if (questionData.type === QuestionType.NUMBER) {
+      return (
+        <NumberAdvancedSettings
+          questionData={questionData}
+          questionIndex={questionIndex}
+        />
+      );
+    }
+
+    if (questionData.type === QuestionType.DATE) {
+      return null; // or DateAdvancedSettings if needed
+    }
+    if (questionData.type === QuestionType.TEXTAREA) {
+      return null; // or TextareaAdvancedSettings if needed
+    }
+
     return null;
   };
 
@@ -83,6 +103,9 @@ export default function QuestionBlockFactory({
           questionIndex={questionIndex}
         />
       )}
+      {questionData.type === QuestionType.NUMBER && <NumberQuestionBlock />}
+      {questionData.type === QuestionType.DATE && <DateQuestionBlock />}
+      {questionData.type === QuestionType.TEXTAREA && <TextareaQuestionBlock />}
     </QuestionBlockWrapper>
   );
 }

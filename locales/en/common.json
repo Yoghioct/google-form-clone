@@ -45,6 +45,9 @@
     "input": "Input",
     "choice": "Choice",
     "rate": "Rate",
-    "section": "Section"
+    "section": "Section",
+    "number": "Number",
+    "date": "Date",
+    "textarea": "Textarea"
   }
 }

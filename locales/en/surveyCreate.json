@@ -24,5 +24,9 @@
   "GREATER_THAN": "greater than",
   "LESS_THAN": "less than",
   "EQUAL": "equals",
-  "SUBMITTED": "is submitted"
+  "SUBMITTED": "is submitted",
+  "numberQuestionDescription": "Users will enter a numeric value",
+  "dateQuestionDescription": "Users will select a date",
+  "textareaQuestionDescription": "Users will enter a longer text answer",
+  "textareaPlaceholder": "Type your answer here..."
 }
