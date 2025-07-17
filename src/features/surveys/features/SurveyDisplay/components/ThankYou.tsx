@@ -17,33 +17,41 @@ import { CheckCircleIcon } from '@heroicons/react/solid';
 //   return 0;
 // }
 
-function evalCondition(cond, questionsById) {
-  
-  // const left = questionsById[cond.question] ? mapAnswerToScore(questionsById[cond.question].answer) : 0;
-  let left = questionsById[cond.question].answer;
-  let right = cond.value;
-  
-  // console.log(questionsById[cond.question].answer);
-  // console.log(cond.value);
-  // console.log(right);
-
-  // if (questionsById[cond.value]) {
-  //   right = mapAnswerToScore(questionsById[cond.value].answer);
-  // } else if (!isNaN(Number(cond.value))) {
-  //   right = Number(cond.value);
-  // }
-
-  switch (cond.operator) {
-    case '==': return String(left).trim().toLowerCase() === String(right).trim().toLowerCase();
-    case '!=': return left != right;
-    case '>': return left > right;
-    case '<': return left < right;
-    case '>=': return left >= right;
-    case '<=': return left <= right;
-    case '+': return left + right == Number(cond.value);
-    case '-': return left - right == Number(cond.value);
-    case 'contains': return String(left).includes(String(right));
-    default: return false;
+function evalCondition(cond: any, questionsById: any) {
+  if (typeof cond.operator === 'string' && cond.operator.startsWith('sum')) {
+    const op = cond.operator.slice(3); // e.g. '==', '>=', etc
+    const questionIds = Array.isArray(cond.question) ? cond.question : [cond.question];
+    const sum = questionIds.reduce((acc: number, qid: any) => {
+      let ans = questionsById[qid]?.answer;
+      let num = Number(ans);
+      if (isNaN(num)) num = 0;
+      return acc + num;
+    }, 0);
+    const target = Number(cond.value);
+    switch (op) {
+      case '==': return sum === target;
+      case '!=': return sum !== target;
+      case '>': return sum > target;
+      case '<': return sum < target;
+      case '>=': return sum >= target;
+      case '<=': return sum <= target;
+      default: return false;
+    }
+  }else{
+    let left = questionsById[cond.question]?.answer;
+    let right = cond.value;
+    switch (cond.operator) {
+      case '==': return String(left).trim().toLowerCase() === String(right).trim().toLowerCase();
+      case '!=': return left != right;
+      case '>': return left > right;
+      case '<': return left < right;
+      case '>=': return left >= right;
+      case '<=': return left <= right;
+      case '+': return left + right == Number(cond.value);
+      case '-': return left - right == Number(cond.value);
+      case 'contains': return String(left).includes(String(right));
+      default: return false;
+    }
   }
 }
 
@@ -53,19 +61,20 @@ export default function ThankYou() {
 
   let customMessages: string[] = [];
   if (formData?.thankYouLogic && Array.isArray(formData.thankYouLogic)) {
-    const questionsById = {};
+    const questionsById: any = {};
 
     formData.questions.forEach(q => {
-      questionsById[q.draftId || q.id] = q;
+      questionsById[(q as any).draftId || (q as any).id] = q;
     });
 
 
     // console.log('DEBUG thankYouLogic:', formData.thankYouLogic);
     // console.log('DEBUG questionsById:', questionsById);
-    customMessages = formData.thankYouLogic.filter((rule, idx) => {
-      const condResults = rule.conditions.map(cond => evalCondition(cond, questionsById));
-      return rule.conditions.every((cond, ci) => condResults[ci]);
-    }).map(rule => rule.message).filter(Boolean);
+    customMessages = formData.thankYouLogic.filter((rule: any, idx: number) => {
+      if (!rule || typeof rule !== 'object' || !Array.isArray(rule.conditions)) return false;
+      const condResults = rule.conditions.map((cond: any) => evalCondition(cond, questionsById));
+      return rule.conditions.every((cond: any, ci: number) => condResults[ci]);
+    }).map((rule: any) => rule.message).filter(Boolean);
   }
 
   // console.log('customMessages:', customMessages);

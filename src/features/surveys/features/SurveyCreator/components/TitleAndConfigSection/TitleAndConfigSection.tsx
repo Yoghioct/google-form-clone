@@ -10,7 +10,7 @@ import SurveyOptionsModalModal from 'features/surveys/components/SurveyOptionsMo
 import useModal from 'features/surveys/hooks/useModal';
 import useTranslation from 'next-translate/useTranslation';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button, {
   ButtonSize,
   ButtonVariant,
@@ -21,6 +21,7 @@ import { useSurveyCreatorContext } from 'features/surveys/features/SurveyCreator
 import { usePreviewPanelContext } from 'features/surveys/features/SurveyCreator/managers/previewPanelManager/context';
 import Toggle from 'shared/components/Toggle/Toggle';
 import dynamic from 'next/dynamic';
+import Select from 'react-select';
 
 //Dynamically import ReactQuill to avoid SSR issues
 const ReactQuill = dynamic(() => import('react-quill'), {
@@ -68,6 +69,58 @@ export default function TitleAndConfigSection() {
   const [disclaimerOpen, setDisclaimerOpen] = useState(showDisclaimer);
   const [thankYouLogicOpen, setThankYouLogicOpen] = useState(false);
   const [thankYouLogicEnabled, setThankYouLogicEnabled] = useState(false);
+
+  // Inisialisasi toggle dan open jika thankYouLogic sudah ada
+  useEffect(() => {
+    if (thankYouLogic && thankYouLogic.length > 0) {
+      setThankYouLogicEnabled(true);
+      setThankYouLogicOpen(true);
+    }
+  }, [thankYouLogic]);
+
+  useEffect(() => {
+    // Normalisasi: pastikan question pada sum condition selalu array
+    if (thankYouLogic && thankYouLogic.length > 0) {
+      let changed = false;
+      const newLogic = thankYouLogic.map((rule: any) => ({
+        ...rule,
+        conditions: rule.conditions.map((cond: any) => {
+          if (
+            typeof cond.operator === 'string' &&
+            cond.operator.startsWith('sum') &&
+            cond.question &&
+            !Array.isArray(cond.question)
+          ) {
+            changed = true;
+            return { ...cond, question: [cond.question] };
+          }
+          return cond;
+        }),
+      }));
+      if (changed) setThankYouLogic(newLogic);
+    }
+  }, [thankYouLogic, setThankYouLogic]);
+
+  useEffect(() => {
+    if (thankYouLogic && thankYouLogic.length > 0) {
+      let changed = false;
+      const newLogic = thankYouLogic.map((rule: any) => ({
+        ...rule,
+        conditions: rule.conditions.map((cond: any) => {
+          if (
+            typeof cond.operator === 'string' &&
+            !cond.operator.startsWith('sum') &&
+            Array.isArray(cond.question)
+          ) {
+            changed = true;
+            return { ...cond, question: cond.question[0] || '' };
+          }
+          return cond;
+        }),
+      }));
+      if (changed) setThankYouLogic(newLogic);
+    }
+  }, [thankYouLogic, setThankYouLogic]);
 
   // Quill editor configuration
   const quillModules = {
@@ -280,16 +333,73 @@ export default function TitleAndConfigSection() {
                   <div key={ci} className="space-y-2 mb-3">
                     <div className="flex flex-col sm:flex-row gap-2 w-full items-end">
                       <div className="flex-1 min-w-0">
-                        <select
-                          className="w-full border rounded px-3 py-2 h-10 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                          value={cond.question}
-                          onChange={e => updateCondition(i, ci, { question: e.target.value })}
-                        >
-                          <option value="">Pilih pertanyaan</option>
-                          {questions.map((q: any, idx: number) => (
-                            <option key={q.draftId || q.id} value={q.draftId || q.id}>{getQuestionLabel(q, idx)}</option>
-                          ))}
-                        </select>
+                        {/* Jika operator sum, gunakan react-select multi */}
+                        {typeof cond.operator === 'string' && cond.operator.startsWith('sum') ? (
+                          <>
+                            <Select
+                              isMulti
+                              options={questions.map((q: any, idx: number) => ({
+                                value: q.draftId || q.id,
+                                label: getQuestionLabel(q, idx),
+                              }))}
+                              value={
+                                Array.isArray(cond.question)
+                                  ? cond.question.map((qid: string) => {
+                                      const q = questions.find((qq: any) => (qq.draftId || qq.id) === qid);
+                                      return q
+                                        ? { value: qid, label: getQuestionLabel(q, questions.indexOf(q)) }
+                                        : null;
+                                    }).filter(Boolean)
+                                  : cond.question
+                                    ? [{
+                                        value: cond.question,
+                                        label:
+                                          (() => {
+                                            const q = questions.find((qq: any) => (qq.draftId || qq.id) === cond.question);
+                                            return q ? getQuestionLabel(q, questions.indexOf(q)) : cond.question;
+                                          })()
+                                      }]
+                                    : []
+                              }
+                              onChange={selected => {
+                                updateCondition(i, ci, { question: selected.map((s: any) => s.value) });
+                              }}
+                              classNamePrefix="react-select"
+                              placeholder="Pilih pertanyaan..."
+                              styles={{
+                                valueContainer: (base) => ({
+                                  ...base,
+                                  justifyContent: 'flex-start',  // paksa kiri
+                                  padding: '2px 8px',
+                                }),
+                                option: (base, { isFocused, isSelected }) => ({
+                                  ...base,
+                                  textAlign: 'left',
+                                  backgroundColor: isFocused
+                                    ? '#eee'
+                                    : isSelected
+                                    ? '#ddd'
+                                    : base.backgroundColor,
+                                }),
+                              }}
+                            />
+                          </>
+                        ) : (
+                          <select
+                            className="w-full border rounded px-3 py-2 h-10 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            value={
+                              Array.isArray(cond.question)
+                                ? cond.question[0] || ''
+                                : cond.question || ''
+                            }
+                            onChange={e => updateCondition(i, ci, { question: e.target.value })}
+                          >
+                            <option value="">Pilih pertanyaan</option>
+                            {questions.map((q: any, idx: number) => (
+                              <option key={q.draftId || q.id} value={q.draftId || q.id}>{getQuestionLabel(q, idx)}</option>
+                            ))}
+                          </select>
+                        )}
                       </div>
                       <div className="flex-1 min-w-0">
                         <select
@@ -297,18 +407,40 @@ export default function TitleAndConfigSection() {
                           value={cond.operator}
                           onChange={e => updateCondition(i, ci, { operator: e.target.value })}
                         >
-                          {LOGIC_OPERATORS.map((op: string) => (
-                            <option key={op} value={op}>{op}</option>
-                          ))}
+                          {/* Grouped operator options */}
+                          <optgroup label="Perbandingan Biasa">
+                            {LOGIC_OPERATORS.map((op: string) => (
+                              <option key={op} value={op}>{op}</option>
+                            ))}
+                          </optgroup>
+                          <optgroup label="Penjumlahan (sum)">
+                            <option value="sum==">sum ==</option>
+                            <option value="sum!=">sum !=</option>
+                            <option value="sum>">sum &gt;</option>
+                            <option value="sum<">sum &lt;</option>
+                            <option value="sum>=">sum &gt;=</option>
+                            <option value="sum<=">sum &lt;=</option>
+                          </optgroup>
                         </select>
                       </div>
                       <div className="flex-1 min-w-0">
-                        <input
-                          className="w-full border rounded px-3 py-2 h-10 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                          value={cond.value}
-                          onChange={e => updateCondition(i, ci, { value: e.target.value })}
-                          placeholder="Nilai"
-                        />
+                        {/* Untuk sum, value harus number */}
+                        {typeof cond.operator === 'string' && cond.operator.startsWith('sum') ? (
+                          <input
+                            type="number"
+                            className="w-full border rounded px-3 py-2 h-10 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            value={cond.value}
+                            onChange={e => updateCondition(i, ci, { value: e.target.value })}
+                            placeholder="Nilai jumlah"
+                          />
+                        ) : (
+                          <input
+                            className="w-full border rounded px-3 py-2 h-10 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            value={cond.value}
+                            onChange={e => updateCondition(i, ci, { value: e.target.value })}
+                            placeholder="Nilai"
+                          />
+                        )}
                       </div>
                       {rule.conditions.length > 1 && (
                         <div className="flex-shrink-0 w-full sm:w-auto">
