@@ -19,10 +19,17 @@ import Input, { InputSize } from 'shared/components/Input/Input';
 import { MAX_TITLE_LENGTH } from 'shared/constants/surveysConfig';
 import { useSurveyCreatorContext } from 'features/surveys/features/SurveyCreator/managers/createSurveyManager/context';
 import { usePreviewPanelContext } from 'features/surveys/features/SurveyCreator/managers/previewPanelManager/context';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import rehypeRaw from 'rehype-raw';
 import Toggle from 'shared/components/Toggle/Toggle';
+import dynamic from 'next/dynamic';
+
+//Dynamically import ReactQuill to avoid SSR issues
+const ReactQuill = dynamic(() => import('react-quill'), {
+  ssr: false,
+  loading: () => <div className="h-32 bg-gray-100 rounded animate-pulse"></div>,
+});
+
+// Import Quill CSS
+import 'react-quill/dist/quill.snow.css';
 
 const LOGIC_OPERATORS = [
   '==', '!=', '>', '<', '>=', '<=', '+', '-', 'contains'
@@ -60,6 +67,24 @@ export default function TitleAndConfigSection() {
 
   const [disclaimerOpen, setDisclaimerOpen] = useState(showDisclaimer);
   const [thankYouLogicOpen, setThankYouLogicOpen] = useState(false);
+
+  // Quill editor configuration
+  const quillModules = {
+    toolbar: [
+      [{ 'header': [1, 2, false] }],
+      ['bold', 'italic', 'underline', 'strike'],
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+      ['link'],
+      ['clean']
+    ],
+  };
+
+  const quillFormats = [
+    'header',
+    'bold', 'italic', 'underline', 'strike',
+    'list', 'bullet',
+    'link'
+  ];
 
   // Helper: get question label
   const getQuestionLabel = (q, idx) => `Q${idx + 1}: ${q.title}`;
@@ -180,26 +205,21 @@ export default function TitleAndConfigSection() {
               value={disclaimerTitle}
               onChange={e => setDisclaimerTitle(e.target.value)}
             />
-            <label className="block text-sm font-medium text-gray-700">Isi disclaimer (markdown, bisa bold, panjang)</label>
-            <textarea
-              className="w-full border rounded px-2 py-1 min-h-[80px] text-sm"
-              placeholder="Isi disclaimer"
-              value={disclaimerBody}
-              onChange={e => setDisclaimerBody(e.target.value)}
-            />
-            <div className="text-xs text-gray-500 mb-2">
-              Gunakan <code>&lt;b&gt;&lt;/b&gt;</code> untuk format <b>tebal</b>,{' '}
-              <code>&lt;i&gt;&lt;/i&gt;</code> <i>miring</i>,{' '}
-              <code>&lt;br&gt;</code> untuk baris baru, dsb.
+            <label className="block text-sm font-medium text-gray-700">Isi disclaimer (rich text editor)</label>
+            <div className="border rounded">
+              <ReactQuill
+                theme="snow"
+                value={disclaimerBody}
+                onChange={setDisclaimerBody}
+                modules={quillModules}
+                formats={quillFormats}
+                placeholder="Tulis isi disclaimer di sini..."
+                // style={{ minHeight: '200px' }}
+              />
             </div>
-            {/*
-            <div className="border-t pt-2 mt-2">
-              <div className="text-xs font-semibold text-gray-600 mb-1">Preview:</div>
-              <div className="prose prose-gray prose-sm bg-white p-2 rounded">
-                <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>{disclaimerBody}</ReactMarkdown>
-              </div>
-            </div>
-            */}
+            {/* <div className="text-xs text-gray-500 mb-2">
+              Gunakan toolbar di atas untuk format teks: <b>tebal</b>, <i>miring</i>, <u>garis bawah</u>, dll.
+            </div> */}
           </div>
         )}
       </div>
@@ -250,21 +270,22 @@ export default function TitleAndConfigSection() {
                       className="border rounded px-1 py-0.5 text-sm"
                       value={cond.value}
                       onChange={e => updateCondition(i, ci, { value: e.target.value })}
-                      placeholder="Nilai atau Q..."
+                      placeholder="Nilai"
                     />
                     {rule.conditions.length > 1 && (
                       <button type="button" className="text-xs text-red-400" onClick={() => removeCondition(i, ci)}>Hapus</button>
                     )}
                   </div>
                 ))}
-                <button type="button" className="text-xs text-blue-600 mb-2" onClick={() => addCondition(i)}>+ Tambah Kondisi</button>
-                <div>
+                <button type="button" className="text-xs text-blue-600 mb-2" onClick={() => addCondition(i)}>+ Tambah Condition</button>
+                <div className="mt-2">
                   <label className="block text-xs font-medium text-gray-700 mb-1">Pesan jika rule match</label>
                   <textarea
-                    className="w-full border rounded px-2 py-1 min-h-[40px] text-sm"
+                    className="w-full border rounded px-2 py-1 text-sm"
+                    rows={2}
+                    placeholder="Pesan yang akan ditampilkan jika kondisi terpenuhi"
                     value={rule.message}
                     onChange={e => updateRule(i, { ...rule, message: e.target.value })}
-                    placeholder="Pesan yang akan ditampilkan"
                   />
                 </div>
               </div>

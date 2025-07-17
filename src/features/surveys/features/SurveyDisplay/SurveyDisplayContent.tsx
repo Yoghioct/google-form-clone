@@ -9,9 +9,6 @@ import NoSurveys from '/public/images/no-surveys.svg';
 import Image from 'next/image';
 import Logo from 'layout/Logo/Logo';
 import LogoCompany from 'layout/Logo/LogoCompany';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import rehypeRaw from 'rehype-raw';
 
 export default function SurveyDisplayContent() {
   const { formData, isSurveyFinished, previewMode } = useSurveyDisplayContext();
@@ -38,15 +35,10 @@ export default function SurveyDisplayContent() {
             {formData.disclaimerTitle}
           </div>
         )}
-        <div className="max-h-60 overflow-y-auto border p-3 mb-4 bg-gray-50 rounded text-left">
-          <div className="prose prose-gray prose-sm">
-            <ReactMarkdown
-              // remarkPlugins={[remarkGfm]}
-              // rehypePlugins={[rehypeRaw]}
-            >
-              {formData.disclaimerBody}
-            </ReactMarkdown>
-          </div>
+        <div className="max-h-96 overflow-y-auto border p-3 mb-4 bg-gray-50 rounded text-left">
+          <div className="prose prose-gray prose-sm"
+            dangerouslySetInnerHTML={{ __html: formData.disclaimerBody || '' }}
+          />
         </div>
         <div className="flex items-center mb-4">
           <input

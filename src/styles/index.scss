@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Quill Editor Styles */
+@importreact-quill/dist/quill.snow.css;
+
 @layer base {
   *,
   *::before,
@@ -108,10 +111,25 @@ em-emoji {
   line-height: 0.9;
 }
 
-.prose strong {
-  font-weight: 600 !important;
+.prose ol,
+.prose ol li {
+  list-style-type: decimal !important;
+  margin-left: 1.5em;
 }
 
-.prose b {
-  font-weight: 600 !important;
+.prose ul,
+.prose ul li {
+  list-style-type: disc !important;
+  margin-left: 1.5em;
+}
+
+.ql-toolbar.ql-snow {
+  border: 0px solid #ccc !important;
+  border-bottom: 1px solid #ccc !important;
+  box-sizing: border-box;
+  padding: 8px;
+}
+
+.ql-container.ql-snow {
+  border: 0px solid #ccc !important;
 }
