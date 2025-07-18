@@ -1,4 +1,4 @@
-import { LogoutIcon, MenuIcon, UserIcon } from '@heroicons/react/outline';
+import { LogoutIcon, MenuIcon, UserIcon, OfficeBuildingIcon } from '@heroicons/react/outline';
 import { Fragment, useState } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import Logo from 'layout/Logo/Logo';
@@ -70,6 +70,14 @@ function Navigation() {
               <ButtonLink variant={ButtonVariant.FLAT} href={'/surveys'}>
                 {t('navigation.mySurveysButton')}
               </ButtonLink>
+
+              <ButtonLink 
+                variant={ButtonVariant.FLAT} 
+                href={'/company'}
+                // icon={<OfficeBuildingIcon className="h-5 w-5" />}
+              >
+                Company Management
+              </ButtonLink>
             </div>
             <div className="hidden items-center justify-center lg:flex">
               <Menu
@@ -95,7 +103,7 @@ function Navigation() {
                   leaveTo="transform opacity-0 scale-95"
                 >
                   <Menu.Items className="absolute right-0 mt-2 min-w-[160px] origin-top-right divide-y divide-zinc-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                    <div className="p-1">
+                    <div className="p-1 text-left">
                       {process.env.NEXT_PUBLIC_PROFILE_SETTINGS && (
                         <Menu.Item>
                           <ButtonLink
@@ -104,10 +112,21 @@ function Navigation() {
                             href={'/account'}
                             icon={<UserIcon className="h-5 w-5" />}
                           >
-                            <span className="ms-1">Account</span>
+                            <span>Account</span>
                           </ButtonLink>
                         </Menu.Item>
                       )}
+{/* 
+                      <Menu.Item>
+                        <ButtonLink
+                          variant={ButtonVariant.FLAT}
+                          sizeType={ButtonSize.FULL}
+                          href={'/company'}
+                          icon={<OfficeBuildingIcon className="h-5 w-5" />}
+                        >
+                          <span>Company Management</span>
+                        </ButtonLink>
+                      </Menu.Item> */}
 
                       <Menu.Item>
                         <Button
@@ -157,6 +176,15 @@ function Navigation() {
         >
           {t('navigation.mySurveysButton')}
         </ButtonLink>
+        <ButtonLink
+          href={'/company'}
+          onClick={() => setIsOpen(!isOpen)}
+          className="mb-2 w-[95%] lg:w-auto"
+          variant={ButtonVariant.FLAT}
+          icon={<OfficeBuildingIcon className="h-5 w-5" />}
+        >
+          Company Management
+        </ButtonLink>
         {process.env.NEXT_PUBLIC_PROFILE_SETTINGS && (
           <Button
             className="mb-2 w-[95%] justify-center lg:w-auto"
@@ -168,6 +196,7 @@ function Navigation() {
             Account
           </Button>
         )}
+
         <Button
           onClick={logout}
           variant={ButtonVariant.FLAT}
