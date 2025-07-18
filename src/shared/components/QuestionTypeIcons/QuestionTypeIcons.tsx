@@ -1,5 +1,5 @@
 import React from 'react';
-import { QuestionType } from '@prisma/client';
+import { QuestionType } from 'shared/constants/surveysConfig';
 import ChoiceIcon from 'shared/components/QuestionTypeIcons/ChoiceIcon';
 import EmojiIcon from 'shared/components/QuestionTypeIcons/EmojiIcon';
 import InputIcon from 'shared/components/QuestionTypeIcons/InputIcon';

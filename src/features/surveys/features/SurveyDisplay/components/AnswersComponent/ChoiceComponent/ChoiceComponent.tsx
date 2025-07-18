@@ -17,18 +17,19 @@ export default function ChoiceComponent({
 
   return (
     <div>
-      {questionData.options.map((option, idx) => (
-        <button
-          key={idx}
-          className={clsx(
-            'mb-2 w-full rounded border p-4 text-center text-sm font-medium hover:bg-gray-100',
-            questionData.answer === option && 'bg-gray-200'
-          )}
-          onClick={() => handleAnswerChange(option, questionData.id)}
-        >
-          {option.trim() || '-'}
-        </button>
-      ))}
+      {Array.isArray(questionData.options) &&
+        (questionData.options as string[]).map((option: string, idx: number) => (
+          <button
+            key={idx}
+            className={clsx(
+              'mb-2 w-full rounded border p-4 text-center text-sm font-medium hover:bg-gray-100',
+              questionData.answer === option && 'bg-gray-200'
+            )}
+            onClick={() => handleAnswerChange(option, questionData.id)}
+          >
+            {option.trim() || '-'}
+          </button>
+        ))}
       {isSubmitted && !questionData.answer && questionData.isRequired && (
         <p className="mt-2 text-sm text-red-500">{t('requiredField')}</p>
       )}

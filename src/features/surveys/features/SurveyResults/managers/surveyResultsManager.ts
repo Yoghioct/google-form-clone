@@ -8,7 +8,6 @@ import useCopyToClipboard from 'shared/hooks/useCopyToClipboard';
 import useTranslation from 'next-translate/useTranslation';
 import { getFetch, patchFetch } from '../../../../../../lib/axiosConfig';
 import { SurveyWithAnswers } from 'types/SurveyWithAnswers';
-import { QuestionType } from '@prisma/client';
 import { MappedAnswers } from 'types/MappedAnswers';
 import { useApplicationContext } from 'features/application/context';
 import { Page } from 'features/application/types/Page';
@@ -30,8 +29,8 @@ export const useSurveyResultsManager = (initialData: SurveyWithAnswers) => {
   const fillSurveyData = useCallback((surveyData: SurveyWithAnswers) => {
     const mappedDataByQuestion: MappedAnswers = {};
 
-    surveyData.answers.forEach((answer) => {
-      answer.answerData.forEach((answerData) => {
+    surveyData.answers.forEach((answer: any) => {
+      answer.answerData.forEach((answerData: any) => {
         const existingQuestion = mappedDataByQuestion[answerData.questionId];
         if (existingQuestion) {
           existingQuestion.answers.push({
@@ -41,12 +40,12 @@ export const useSurveyResultsManager = (initialData: SurveyWithAnswers) => {
           });
         } else {
           const questionData = surveyData.questions.find(
-            (q) => q.id === answerData.questionId
+            (q: any) => q.id === answerData.questionId
           );
           mappedDataByQuestion[answerData.questionId] = {
-            questionType: questionData?.type as QuestionType,
+            questionType: questionData?.type as any, // Use 'any' if QuestionType is not available
             question: questionData?.title as string,
-            options: questionData?.options ?? [],
+            options: Array.isArray(questionData?.options) ? (questionData.options as string[]) : [],
             answers: [
               {
                 id: answerData.id,
@@ -87,7 +86,7 @@ export const useSurveyResultsManager = (initialData: SurveyWithAnswers) => {
         actionType: 'UPDATE_ACTIVE',
         isActive: !surveyData?.isActive,
       });
-      setSurveyData((prev) =>
+      setSurveyData((prev: any) =>
         prev ? { ...prev, isActive: !!surveyResult?.isActive } : prev
       );
     } catch (_err) {

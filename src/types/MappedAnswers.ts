@@ -1,4 +1,4 @@
-import { QuestionType } from '@prisma/client';
+import { QuestionType } from 'shared/constants/surveysConfig';
 import { MappedAnswerData } from 'types/MappedAnswerData';
 
 export type MappedAnswers = {

@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import useCopyToClipboard from 'shared/hooks/useCopyToClipboard';
 import useTranslation from 'next-translate/useTranslation';
-import { QuestionType } from '@prisma/client';
 import { postFetch, putFetch } from '../../../../../../../lib/axiosConfig';
 import { END_OF_SURVEY } from 'shared/constants/surveysConfig';
 import { DRAFT_SURVEY_SESSION_STORAGE } from 'shared/constants/app';
@@ -13,6 +12,7 @@ import { CreateEditSurveyPayload } from 'pages/api/survey';
 import { QuestionWithLogicPath } from 'types/QuestionWithLogicPath';
 import { useApplicationContext } from 'features/application/context';
 import { Page } from 'features/application/types/Page';
+import { QuestionType } from 'shared/constants/surveysConfig';
 
 export interface DraftQuestion {
   draftId: string;
@@ -58,14 +58,21 @@ export const useCreateSurveyManager = (initialData?: SurveyWithQuestions) => {
     questions: QuestionWithLogicPath[]
   ): DraftQuestion[] => {
     return questions.map((question) => ({
-      ...question,
+      draftId: question.id || question.draftId || '',
+      title: question.title || '',
+      type: Object.values(QuestionType).includes(question.type) ? question.type : QuestionType.INPUT,
+      isRequired: question.isRequired ?? false,
+      options:
+        Array.isArray(question.options) && question.options.every((o) => typeof o === 'string')
+          ? question.options
+          : undefined,
+      description: question.description ?? undefined,
       expanded: false,
       advancedSettingsExpanded: false,
-      draftId: question.id,
-      logicPaths: question.logicPaths?.map((path) => ({
+      logicPaths: question.logicPaths?.map((path: any) => ({
         ...path,
         nextQuestionId: path.endSurvey ? END_OF_SURVEY : path.nextQuestionId,
-      })),
+      })) ?? [],
     }));
   };
 

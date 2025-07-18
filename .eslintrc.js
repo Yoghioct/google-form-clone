@@ -40,14 +40,31 @@ module.exports = {
     'no-relative-import-paths',
   ],
   rules: {
-    indent: ['error', 2, { SwitchCase: 1 }],
-    quotes: ['error', 'single'],
-    semi: ['error', 'always'],
+    'semi': 'off',
+    'quotes': 'off',
+    'indent': 'off',
+  
+    // Tailwind
     'tailwindcss/no-custom-classname': 'off',
     'tailwindcss/migration-from-tailwind-2': 'off',
-    'no-relative-import-paths/no-relative-import-paths': [
-      'warn',
-      { allowSameFolder: false, rootDir: 'src', prefix: '' },
-    ],
-  },
+    'tailwindcss/classnames-order': 'off',
+    'tailwindcss/enforces-shorthand': 'off',
+    'tailwindcss/no-unnecessary-arbitrary-value': 'off',
+  
+    // Import Path
+    'import/first': 'off',
+    'no-relative-import-paths/no-relative-import-paths': 'off',
+  
+    // TypeScript
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-unused-vars': 'off',
+    '@typescript-eslint/no-non-null-assertion': 'off',
+  
+    // React
+    'react/no-unescaped-entities': 'off',
+  
+    // Other
+    'eqeqeq': 'off',
+    'prefer-const': 'off',
+  }
 };

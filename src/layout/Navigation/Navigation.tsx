@@ -206,7 +206,7 @@ function Navigation() {
               onClick={() => setIsOpen(!isOpen)}
               className="mb-2 w-[95%] lg:w-auto"
               variant={ButtonVariant.FLAT}
-              icon={<OfficeBuildingIcon className="h-5 w-5" />}
+              // icon={<OfficeBuildingIcon className="h-5 w-5" />}
             >
               Company Management
             </ButtonLink>
@@ -215,7 +215,7 @@ function Navigation() {
               onClick={() => setIsOpen(!isOpen)}
               className="mb-2 w-[95%] lg:w-auto"
               variant={ButtonVariant.FLAT}
-              icon={<UserGroupIcon className="h-5 w-5" />}
+              // icon={<UserGroupIcon className="h-5 w-5" />}
             >
               User Management
             </ButtonLink>

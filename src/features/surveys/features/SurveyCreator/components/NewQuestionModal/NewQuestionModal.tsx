@@ -1,7 +1,7 @@
 import React from 'react';
 import StyledDialog from 'shared/components/StyledDialog/StyledDialog';
 import { DraftQuestion } from 'features/surveys/features/SurveyCreator/managers/createSurveyManager/createSurveyManager';
-import { QuestionType } from '@prisma/client';
+import { QuestionType } from 'shared/constants/surveysConfig';
 import { v4 } from 'uuid';
 import NewQuestionModalButton from 'features/surveys/features/SurveyCreator/components/NewQuestionModal/components/NewQuestionModalButton';
 import EmojiIcon from 'shared/components/QuestionTypeIcons/EmojiIcon';

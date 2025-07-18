@@ -1,4 +1,4 @@
-import { QuestionType } from '@prisma/client';
+import { QuestionType } from 'shared/constants/surveysConfig';
 import { DraggableProvidedDragHandleProps } from 'react-beautiful-dnd';
 import ChoiceQuestionBlock from 'features/surveys/features/SurveyCreator/components/QuestionBlocks/ChoiceQuestionBlock/ChoiceQuestionBlock';
 import EmojiQuestionBlock from 'features/surveys/features/SurveyCreator/components/QuestionBlocks/EmojiQuestionBlock/EmojiQuestionBlock';

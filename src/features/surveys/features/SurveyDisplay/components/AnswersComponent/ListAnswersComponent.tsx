@@ -22,15 +22,16 @@ export default function ListAnswersComponent({
   return (
     <>
       <div className="mb-2 flex flex-wrap justify-center gap-y-2">
-        {questionData.options.map((icon, idx) => (
-          <EmojiListItem
-            icon={icon}
-            selected={questionData.answer === icon}
-            isAnySelected={!!questionData.answer}
-            key={icon}
-            onClick={onAnswerChange}
-          />
-        ))}
+        {Array.isArray(questionData.options) &&
+          (questionData.options as string[]).map((icon: string, idx: number) => (
+            <EmojiListItem
+              icon={icon}
+              selected={questionData.answer === icon}
+              isAnySelected={!!questionData.answer}
+              key={icon}
+              onClick={onAnswerChange}
+            />
+          ))}
       </div>
       {isSubmitted && !questionData.answer && questionData.isRequired && (
         <p className="mt-4 text-sm text-red-500">{t('requiredField')}</p>

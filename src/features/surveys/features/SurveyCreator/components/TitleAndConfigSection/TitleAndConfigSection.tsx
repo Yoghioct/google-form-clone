@@ -152,11 +152,11 @@ export default function TitleAndConfigSection() {
   };
   // Handler: remove rule
   const removeRule = (i: number) => {
-    setThankYouLogic(thankYouLogic.filter((_, idx) => idx !== i));
+    setThankYouLogic(thankYouLogic.filter((_: any, idx: number) => idx !== i));
   };
   // Handler: update rule
   const updateRule = (i: number, rule: any) => {
-    setThankYouLogic(thankYouLogic.map((r, idx) => (idx === i ? rule : r)));
+    setThankYouLogic(thankYouLogic.map((r: any, idx: number) => (idx === i ? rule : r)));
   };
   // Handler: add condition to rule
   const addCondition = (i: number) => {

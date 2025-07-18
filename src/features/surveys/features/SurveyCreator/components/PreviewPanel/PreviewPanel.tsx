@@ -55,19 +55,24 @@ export default function PreviewPanel() {
               title,
               accentColor: surveyOptions.accentColor,
               createdAt: new Date(),
-              questions: questions.map((question, index) => ({
+              questions: questions.map((question: any, index: number) => ({
                 surveyId: '',
                 options: question.options ?? [],
                 order: index,
                 createdAt: new Date(),
                 id: question.draftId,
                 title: question.title,
-                type: question.type,
+                type: question.type as import('shared/constants/surveysConfig').QuestionType,
                 answers: [],
                 description: question.description || '',
                 logicPaths: (question.logicPaths as LogicPath[]) ?? [],
                 isRequired: question.isRequired,
               })),
+              displayLogo: surveyOptions.displayLogo ?? true,
+              showDisclaimer: false,
+              disclaimerTitle: '',
+              disclaimerBody: '',
+              thankYouLogic: [],
             }}
           />
         </div>

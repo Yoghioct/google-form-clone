@@ -1,4 +1,13 @@
-import { QuestionType } from '@prisma/client';
+export enum QuestionType {
+  EMOJI = 'EMOJI',
+  INPUT = 'INPUT',
+  CHOICE = 'CHOICE',
+  RATE = 'RATE',
+  SECTION = 'SECTION',
+  NUMBER = 'NUMBER',
+  DATE = 'DATE',
+  TEXTAREA = 'TEXTAREA',
+}
 import { DraftQuestion } from 'features/surveys/features/SurveyCreator/managers/createSurveyManager/createSurveyManager';
 import { v4 } from 'uuid';
 

@@ -1,6 +1,6 @@
 import { createContext } from 'react';
 import { useDefinedContext } from 'shared/context/useDefinedContext';
-import { CreateSurveyManager } from 'features/surveys/features/SurveyCreator/managers/createSurveyManager/createSurveyManager';
+import { CreateSurveyManager, useCreateSurveyManager } from 'features/surveys/features/SurveyCreator/managers/createSurveyManager/createSurveyManager';
 
 export const SurveyCreatorContext = createContext<
   CreateSurveyManager | undefined

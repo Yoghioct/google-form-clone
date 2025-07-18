@@ -38,7 +38,7 @@ export default function QuestionsSection() {
                 ref={provided.innerRef}
                 className={clsx(snapshot.isDraggingOver && '')}
               >
-                {questions.map((question, index) => (
+                {questions.map((question: any, index: number) => (
                   <Draggable
                     key={question.draftId}
                     draggableId={question.draftId}

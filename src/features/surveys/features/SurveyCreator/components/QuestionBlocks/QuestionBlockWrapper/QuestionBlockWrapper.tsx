@@ -9,6 +9,7 @@ import useTranslation from 'next-translate/useTranslation';
 import {
   MAX_QUESTION_LENGTH,
   MIN_QUESTIONS,
+  QuestionType,
 } from 'shared/constants/surveysConfig';
 import Toggle from 'shared/components/Toggle/Toggle';
 import { DraggableProvidedDragHandleProps } from 'react-beautiful-dnd';
@@ -18,7 +19,6 @@ import { useSurveyCreatorContext } from 'features/surveys/features/SurveyCreator
 import { DraftQuestion } from 'features/surveys/features/SurveyCreator/managers/createSurveyManager/createSurveyManager';
 import Button, { ButtonSize } from 'shared/components/Button/Button';
 import TextareaAutosize from 'react-textarea-autosize';
-import { QuestionType } from '@prisma/client';
 
 interface QuestionBlockWrapperProps {
   index: number;
@@ -89,7 +89,7 @@ export default function QuestionBlockWrapper({
           </Button>
 
           <div className="hidden sm:block">
-            <QuestionTypeIcons type={questionData.type} index={index} />
+            <QuestionTypeIcons type={questionData.type as QuestionType} index={index} />
           </div>
 
           <div className="w-full grow">
@@ -110,7 +110,7 @@ export default function QuestionBlockWrapper({
 
         <div className="mb-2 flex w-full items-center justify-end gap-2 sm:mb-0 sm:w-auto">
           <div className="mr-1 sm:hidden">
-            <QuestionTypeIcons type={questionData.type} index={index} />
+            <QuestionTypeIcons type={questionData.type as QuestionType} index={index} />
           </div>
 
           {(isDraggingPossible || isRemovingPossible) && (
