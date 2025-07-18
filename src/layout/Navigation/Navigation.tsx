@@ -1,4 +1,4 @@
-import { LogoutIcon, MenuIcon, UserIcon, OfficeBuildingIcon } from '@heroicons/react/outline';
+import { LogoutIcon, MenuIcon, UserIcon, OfficeBuildingIcon, UserGroupIcon } from '@heroicons/react/outline';
 import { Fragment, useState } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import Logo from 'layout/Logo/Logo';
@@ -78,6 +78,14 @@ function Navigation() {
               >
                 Company Management
               </ButtonLink>
+
+              <ButtonLink 
+                variant={ButtonVariant.FLAT} 
+                href={'/user'}
+                // icon={<UserGroupIcon className="h-5 w-5" />}
+              >
+                User Management
+              </ButtonLink>
             </div>
             <div className="hidden items-center justify-center lg:flex">
               <Menu
@@ -125,6 +133,17 @@ function Navigation() {
                           icon={<OfficeBuildingIcon className="h-5 w-5" />}
                         >
                           <span>Company Management</span>
+                        </ButtonLink>
+                      </Menu.Item>
+
+                      <Menu.Item>
+                        <ButtonLink
+                          variant={ButtonVariant.FLAT}
+                          sizeType={ButtonSize.FULL}
+                          href={'/user'}
+                          icon={<UserGroupIcon className="h-5 w-5" />}
+                        >
+                          <span>User Management</span>
                         </ButtonLink>
                       </Menu.Item> */}
 
@@ -184,6 +203,15 @@ function Navigation() {
           icon={<OfficeBuildingIcon className="h-5 w-5" />}
         >
           Company Management
+        </ButtonLink>
+        <ButtonLink
+          href={'/user'}
+          onClick={() => setIsOpen(!isOpen)}
+          className="mb-2 w-[95%] lg:w-auto"
+          variant={ButtonVariant.FLAT}
+                          icon={<UserGroupIcon className="h-5 w-5" />}
+        >
+          User Management
         </ButtonLink>
         {process.env.NEXT_PUBLIC_PROFILE_SETTINGS && (
           <Button

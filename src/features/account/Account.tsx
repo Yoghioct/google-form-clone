@@ -22,7 +22,7 @@ export default function Account() {
 
   return (
     <>
-      <Header>Your account</Header>
+      {/* <Header>Your account</Header> */}
 
       {user ? (
         <div className="mt-4 flex w-full items-center justify-center gap-12 text-left">

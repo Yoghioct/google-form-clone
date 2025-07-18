@@ -1,5 +1,6 @@
 import prismadb from '../../../../lib/prismadb';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { v4 as uuid } from 'uuid';
 
 export default async function handler(
   req: NextApiRequest,
@@ -31,6 +32,7 @@ export default async function handler(
       const company = await prismadb.company.create({
         data: {
           name,
+          updatedAt: new Date(),
         },
       });
 

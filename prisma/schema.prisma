@@ -12,6 +12,8 @@ datasource db {
 
 model User {
   id             String    @id @default(cuid())
+  companyId      String?
+  role           Role      @default(USER)
   name           String
   image          String?
   email          String?   @unique
@@ -21,6 +23,8 @@ model User {
   updatedAt      DateTime  @updatedAt
   sessions       Session[]
   accounts       Account[]
+
+  company        Company?  @relation(fields: [companyId], references: [id])
 
   surveys Survey[]
   answers Answer[]
@@ -120,6 +124,15 @@ model AnswerData {
   answer Answer @relation(fields: [answerId], references: [id], onDelete: Cascade)
 }
 
+model Company {
+  id        String   @id @default(cuid()) // ganti ke Int + autoincrement() jika perlu
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  users User[]
+}
+
 enum QuestionType {
   EMOJI
   INPUT
@@ -136,4 +149,9 @@ enum ComparisonType {
   GREATER_THAN
   LESS_THAN
   SUBMITTED
+}
+
+enum Role {
+  USER
+  ADMIN
 }
