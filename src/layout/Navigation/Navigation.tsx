@@ -71,21 +71,25 @@ function Navigation() {
                 {t('navigation.mySurveysButton')}
               </ButtonLink>
 
-              <ButtonLink 
-                variant={ButtonVariant.FLAT} 
-                href={'/company'}
-                // icon={<OfficeBuildingIcon className="h-5 w-5" />}
-              >
-                Company Management
-              </ButtonLink>
+              {user?.role === 'ADMIN' && (
+                <>
+                  <ButtonLink 
+                    variant={ButtonVariant.FLAT} 
+                    href={'/company'}
+                    // icon={<OfficeBuildingIcon className="h-5 w-5" />}
+                  >
+                    Company Management
+                  </ButtonLink>
 
-              <ButtonLink 
-                variant={ButtonVariant.FLAT} 
-                href={'/user'}
-                // icon={<UserGroupIcon className="h-5 w-5" />}
-              >
-                User Management
-              </ButtonLink>
+                  <ButtonLink 
+                    variant={ButtonVariant.FLAT} 
+                    href={'/user'}
+                    // icon={<UserGroupIcon className="h-5 w-5" />}
+                  >
+                    User Management
+                  </ButtonLink>
+                </>
+              )}
             </div>
             <div className="hidden items-center justify-center lg:flex">
               <Menu
@@ -195,24 +199,28 @@ function Navigation() {
         >
           {t('navigation.mySurveysButton')}
         </ButtonLink>
-        <ButtonLink
-          href={'/company'}
-          onClick={() => setIsOpen(!isOpen)}
-          className="mb-2 w-[95%] lg:w-auto"
-          variant={ButtonVariant.FLAT}
-          icon={<OfficeBuildingIcon className="h-5 w-5" />}
-        >
-          Company Management
-        </ButtonLink>
-        <ButtonLink
-          href={'/user'}
-          onClick={() => setIsOpen(!isOpen)}
-          className="mb-2 w-[95%] lg:w-auto"
-          variant={ButtonVariant.FLAT}
-                          icon={<UserGroupIcon className="h-5 w-5" />}
-        >
-          User Management
-        </ButtonLink>
+        {user?.role === 'ADMIN' && (
+          <>
+            <ButtonLink
+              href={'/company'}
+              onClick={() => setIsOpen(!isOpen)}
+              className="mb-2 w-[95%] lg:w-auto"
+              variant={ButtonVariant.FLAT}
+              icon={<OfficeBuildingIcon className="h-5 w-5" />}
+            >
+              Company Management
+            </ButtonLink>
+            <ButtonLink
+              href={'/user'}
+              onClick={() => setIsOpen(!isOpen)}
+              className="mb-2 w-[95%] lg:w-auto"
+              variant={ButtonVariant.FLAT}
+              icon={<UserGroupIcon className="h-5 w-5" />}
+            >
+              User Management
+            </ButtonLink>
+          </>
+        )}
         {process.env.NEXT_PUBLIC_PROFILE_SETTINGS && (
           <Button
             className="mb-2 w-[95%] justify-center lg:w-auto"
