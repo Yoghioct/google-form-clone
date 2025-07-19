@@ -7,6 +7,7 @@ import RateIcon from 'shared/components/QuestionTypeIcons/RateIcon';
 import NumberIcon from 'shared/components/QuestionTypeIcons/NumberIcon';
 import DateIcon from 'shared/components/QuestionTypeIcons/DateIcon';
 import TextareaIcon from 'shared/components/QuestionTypeIcons/TextareaIcon';
+import CompanyIcon from 'shared/components/QuestionTypeIcons/CompanyIcon';
 import { Tooltip } from 'react-tooltip';
 import useTranslation from 'next-translate/useTranslation';
 import SectionIcon from './SectionIcon';
@@ -46,6 +47,7 @@ export default function QuestionTypeIcons({
         {type === QuestionType.NUMBER && <NumberIcon />}
         {type === QuestionType.DATE && <DateIcon />}
         {type === QuestionType.TEXTAREA && <TextareaIcon />}
+        {type === QuestionType.COMPANY && <CompanyIcon />}
       </div>
     </>
   );

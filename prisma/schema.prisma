@@ -142,6 +142,7 @@ enum QuestionType {
   NUMBER
   DATE
   TEXTAREA
+  COMPANY
 }
 
 enum ComparisonType {

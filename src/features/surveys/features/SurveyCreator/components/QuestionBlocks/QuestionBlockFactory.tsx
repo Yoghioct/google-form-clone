@@ -14,6 +14,8 @@ import InputAdvancedSettings from 'features/surveys/features/SurveyCreator/compo
 import NumberAdvancedSettings from 'features/surveys/features/SurveyCreator/components/QuestionBlocks/AdvancedSettings/NumberAdvancedSettings';
 import DateQuestionBlock from 'features/surveys/features/SurveyCreator/components/QuestionBlocks/DateQuestionBlock/DateQuestionBlock';
 import TextareaQuestionBlock from 'features/surveys/features/SurveyCreator/components/QuestionBlocks/TextareaQuestionBlock/TextareaQuestionBlock';
+import CompanyQuestionBlock from 'features/surveys/features/SurveyCreator/components/QuestionBlocks/CompanyQuestionBlock/CompanyQuestionBlock';
+import CompanyAdvancedSettings from 'features/surveys/features/SurveyCreator/components/QuestionBlocks/AdvancedSettings/CompanyAdvancedSettings';
 
 interface QuestionBlockFactoryProps {
   questionData: DraftQuestion;
@@ -72,6 +74,15 @@ export default function QuestionBlockFactory({
       );
     }
 
+    if (questionData.type === QuestionType.COMPANY) {
+      return (
+        <CompanyAdvancedSettings
+          questionData={questionData}
+          questionIndex={questionIndex}
+        />
+      );
+    }
+
     if (questionData.type === QuestionType.DATE) {
       return null; // or DateAdvancedSettings if needed
     }
@@ -106,6 +117,12 @@ export default function QuestionBlockFactory({
       {questionData.type === QuestionType.NUMBER && <NumberQuestionBlock />}
       {questionData.type === QuestionType.DATE && <DateQuestionBlock />}
       {questionData.type === QuestionType.TEXTAREA && <TextareaQuestionBlock />}
+      {questionData.type === QuestionType.COMPANY && (
+        <CompanyQuestionBlock
+          questionIndex={questionIndex}
+          selectedCompanies={questionData.selectedCompanies ?? []}
+        />
+      )}
     </QuestionBlockWrapper>
   );
 }

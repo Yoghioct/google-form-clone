@@ -1,3 +1,5 @@
+import useTranslation from 'next-translate/useTranslation';
+
 import React from 'react';
 import StyledDialog from 'shared/components/StyledDialog/StyledDialog';
 import { DraftQuestion } from 'features/surveys/features/SurveyCreator/managers/createSurveyManager/createSurveyManager';
@@ -12,6 +14,8 @@ import NumberIcon from 'shared/components/QuestionTypeIcons/NumberIcon';
 import SectionIcon from 'shared/components/QuestionTypeIcons/SectionIcon';
 import DateIcon from 'shared/components/QuestionTypeIcons/DateIcon';
 import TextareaIcon from 'shared/components/QuestionTypeIcons/TextareaIcon';
+import CompanyIcon from 'shared/components/QuestionTypeIcons/CompanyIcon';
+import { useSurveyCreatorContext } from 'features/surveys/features/SurveyCreator/managers/createSurveyManager/context';
 
 type NewQuestionModalProps = {
   isOpened: boolean;
@@ -24,6 +28,11 @@ export default function NewQuestionModal({
   closeModal,
   onSuccess,
 }: NewQuestionModalProps) {
+  const { t } = useTranslation('surveyCreate');
+  const { questions } = useSurveyCreatorContext();
+  
+  // Check if a Company question already exists
+  const hasCompanyQuestion = questions.some(question => question.type === QuestionType.COMPANY);
   const addEmojiQuestion = () => {
     closeModal();
     onSuccess?.({
@@ -134,6 +143,21 @@ export default function NewQuestionModal({
     });
   };
 
+  const addCompanyQuestion = () => {
+    closeModal();
+    onSuccess?.({
+      draftId: v4(),
+      type: QuestionType.COMPANY,
+      title: 'Select your company',
+      isRequired: true,
+      options: [],
+      selectedCompanies: [],
+      expanded: true,
+      advancedSettingsExpanded: false,
+      description: '',
+    });
+  };
+
   return (
     <StyledDialog
       isOpen={isOpened}
@@ -189,7 +213,14 @@ export default function NewQuestionModal({
             text="Textarea"
             test-selector="textarea-question-button"
           />
-
+          <NewQuestionModalButton
+            onClick={addCompanyQuestion}
+            icon={<CompanyIcon />}
+            text="Company"
+            test-selector="company-question-button"
+            disabled={hasCompanyQuestion}
+            disabledReason={hasCompanyQuestion ? t('companyQuestionRestriction') : undefined}
+          />
         </div>
       }
     />

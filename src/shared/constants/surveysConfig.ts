@@ -7,6 +7,7 @@ export enum QuestionType {
   NUMBER = 'NUMBER',
   DATE = 'DATE',
   TEXTAREA = 'TEXTAREA',
+  COMPANY = 'COMPANY',
 }
 import { DraftQuestion } from 'features/surveys/features/SurveyCreator/managers/createSurveyManager/createSurveyManager';
 import { v4 } from 'uuid';

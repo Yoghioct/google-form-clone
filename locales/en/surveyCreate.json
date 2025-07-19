@@ -28,5 +28,6 @@
   "numberQuestionDescription": "Users will enter a numeric value",
   "dateQuestionDescription": "Users will select a date",
   "textareaQuestionDescription": "Users will enter a longer text answer",
-  "textareaPlaceholder": "Type your answer here..."
+  "textareaPlaceholder": "Type your answer here...",
+  "companyQuestionRestriction": "Max 1 per survey"
 }

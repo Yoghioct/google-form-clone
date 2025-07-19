@@ -24,6 +24,7 @@ export interface DraftQuestion {
   expanded: boolean;
   advancedSettingsExpanded: boolean;
   description?: string;
+  selectedCompanies?: string[];
 }
 
 export interface SurveyOptions {
@@ -66,6 +67,7 @@ export const useCreateSurveyManager = (initialData?: SurveyWithQuestions) => {
         Array.isArray(question.options) && question.options.every((o) => typeof o === 'string')
           ? question.options
           : undefined,
+      selectedCompanies: (question as any).selectedCompanies ?? undefined,
       description: question.description ?? undefined,
       expanded: false,
       advancedSettingsExpanded: false,
@@ -147,6 +149,15 @@ export const useCreateSurveyManager = (initialData?: SurveyWithQuestions) => {
   };
 
   const addQuestion = (newQuestion: DraftQuestion) => {
+    // Prevent adding multiple Company questions
+    if (newQuestion.type === QuestionType.COMPANY) {
+      const hasCompanyQuestion = questions.some(question => question.type === QuestionType.COMPANY);
+      if (hasCompanyQuestion) {
+        toast.error('Only one Company question is allowed per survey');
+        return;
+      }
+    }
+    
     setQuestions((oldQuestions) => [...oldQuestions, newQuestion]);
     setIsSubmitted(false);
     setError('');
@@ -176,6 +187,15 @@ export const useCreateSurveyManager = (initialData?: SurveyWithQuestions) => {
       const newQuestions = [...oldQuestions];
       const newQuestion = { ...newQuestions[questionIndex] };
       newQuestion.title = newQuestionTitle.trimStart();
+      newQuestions.splice(questionIndex, 1, newQuestion);
+      return newQuestions;
+    });
+  };
+
+  const updateQuestionData = (questionIndex: number, questionData: Partial<DraftQuestion>) => {
+    setQuestions((oldQuestions) => {
+      const newQuestions = [...oldQuestions];
+      const newQuestion = { ...newQuestions[questionIndex], ...questionData };
       newQuestions.splice(questionIndex, 1, newQuestion);
       return newQuestions;
     });
@@ -367,6 +387,7 @@ export const useCreateSurveyManager = (initialData?: SurveyWithQuestions) => {
         draftId: question.draftId,
         title: question.title,
         options: question.options ?? [],
+        selectedCompanies: question.selectedCompanies ?? [],
         type: question.type,
         isRequired: question.isRequired,
         description: question.description || '',
@@ -570,6 +591,7 @@ export const useCreateSurveyManager = (initialData?: SurveyWithQuestions) => {
     isTemplatePicked,
     setIsTemplatePicked,
     updateQuestionDescription,
+    updateQuestionData,
     showDisclaimer,
     setShowDisclaimer,
     disclaimerTitle,

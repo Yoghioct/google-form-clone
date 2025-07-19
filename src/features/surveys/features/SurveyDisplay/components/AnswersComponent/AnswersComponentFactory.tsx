@@ -1,4 +1,4 @@
-import { QuestionType } from '@prisma/client';
+import { QuestionType } from 'shared/constants/surveysConfig';
 
 import useTranslation from 'next-translate/useTranslation';
 import Button, {
@@ -12,6 +12,7 @@ import RateAnswersComponent from 'features/surveys/features/SurveyDisplay/compon
 import TextAnswersComponent from 'features/surveys/features/SurveyDisplay/components/AnswersComponent/TextAnswersComponent';
 import DateAnswersComponent from 'features/surveys/features/SurveyDisplay/components/AnswersComponent/DateAnswersComponent';
 import TextareaAnswersComponent from 'features/surveys/features/SurveyDisplay/components/AnswersComponent/TextareaAnswersComponent';
+import CompanyAnswersComponent from 'features/surveys/features/SurveyDisplay/components/AnswersComponent/CompanyAnswersComponent';
 import { useSurveyDisplayContext } from 'features/surveys/features/SurveyDisplay/context';
 import { getFontColor } from 'features/surveys/features/SurveyDisplay/utils/getFontColor';
 
@@ -92,6 +93,9 @@ export const AnswersComponentFactory = (
       )}
       {currentQuestion.type === QuestionType.TEXTAREA && (
         <TextareaAnswersComponent questionData={currentQuestion} />
+      )}
+      {currentQuestion.type === QuestionType.COMPANY && (
+        <CompanyAnswersComponent questionData={currentQuestion} />
       )}
 
       {formData.oneQuestionPerStep && (

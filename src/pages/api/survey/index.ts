@@ -23,6 +23,7 @@ export interface CreateEditSurveyPayload {
     description?: string;
     isRequired: boolean;
     options: string[];
+    selectedCompanies?: string[];
     logicPaths?: {
       comparisonType: ComparisonType;
       selectedOption: string;
@@ -60,6 +61,12 @@ export async function getAllUserSurveys(userId: string) {
 }
 
 export const isSurveyValid = (survey: CreateEditSurveyPayload) => {
+  // Check for multiple Company questions
+  const companyQuestions = survey.questions.filter(q => q.type === QuestionType.COMPANY);
+  if (companyQuestions.length > 1) {
+    return false;
+  }
+
   if (
     survey.title.trim() === '' ||
     survey.title.length > MAX_TITLE_LENGTH ||
