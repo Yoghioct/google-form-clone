@@ -62,7 +62,7 @@ export default function Account() {
                 <div className="mt-2">
                   <p className="text-sm text-red-500">
                     {t('dialogContentFirst')}&nbsp;
-                    <span className="font-bold">
+                    <span className="font-semibold">
                       {t('dialogContentSecond')}
                     </span>{' '}
                     {t('dialogContentThird')}

@@ -16,7 +16,7 @@ export default function Note({ title, description, classNames }: NoteProps) {
       )}
       role="alert"
     >
-      <p className="font-bold">{title}</p>
+      <p className="font-semibold">{title}</p>
       <p>{description}</p>
     </div>
   );

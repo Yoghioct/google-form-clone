@@ -31,7 +31,7 @@ export default function DeleteSurveyModal({
           <div className="mt-4">
             <p className="text-center text-sm text-red-500">
               {t('surveyRemoving.modalContentFirst')}&nbsp;
-              <span className="font-bold">
+              <span className="font-semibold">
                 {t('surveyRemoving.modalContentSecond')}
               </span>{' '}
               {t('surveyRemoving.modalContentThird')}

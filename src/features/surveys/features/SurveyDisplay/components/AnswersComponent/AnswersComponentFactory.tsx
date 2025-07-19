@@ -55,7 +55,7 @@ export const AnswersComponentFactory = (
             {currentQuestion.title.trim() || '-'}
           </h2>
         ) : (
-          <h1 className="text-2xl font-bold">
+          <h1 className="text-2xl font-semibold">
             {currentQuestion.title.trim() || '-'}
           </h1>
         )}
