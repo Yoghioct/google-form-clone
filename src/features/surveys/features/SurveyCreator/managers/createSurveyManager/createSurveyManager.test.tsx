@@ -4,6 +4,7 @@ import { act, renderHook, waitFor } from '@testing-library/react';
 import { useApplicationManager } from 'features/application/manager';
 import { ApplicationContext } from 'features/application/context';
 import { PropsWithChildren } from 'react';
+import { QuestionType } from 'shared/constants/surveysConfig';
 
 jest.mock('next/router', () => require('next-router-mock'));
 
@@ -29,7 +30,7 @@ const setUp = () => {
   act(() => {
     result.current.addQuestion({
       draftId: v4(),
-      type: 'INPUT',
+      type: QuestionType.INPUT,
       title: NEW_QUESTION_TITLE,
       options: [],
       isRequired: false,
@@ -47,7 +48,7 @@ describe('useCreateSurveyManager tests', () => {
     act(() => {
       result.current.addQuestion({
         draftId: v4(),
-        type: 'INPUT',
+        type: QuestionType.INPUT,
         title: 'test',
         options: [],
         isRequired: false,

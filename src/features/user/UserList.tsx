@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import Button, { ButtonVariant, ButtonSize } from '../../shared/components/Button/Button';
 import Input from '../../shared/components/Input/Input';
 import StyledDialog from '../../shared/components/StyledDialog/StyledDialog';
@@ -177,7 +178,7 @@ export const UserList: React.FC = () => {
                     <div className="flex items-center">
                       <div className="flex-shrink-0 h-10 w-10">
                         {user.image ? (
-                          <img className="h-10 w-10 rounded-full" src={user.image} alt="" />
+                          <Image className="h-10 w-10 rounded-full" src={user.image} alt="" width={40} height={40} />
                         ) : (
                           <div className="h-10 w-10 rounded-full bg-zinc-300 flex items-center justify-center">
                             <span className="text-sm font-medium text-zinc-700">
