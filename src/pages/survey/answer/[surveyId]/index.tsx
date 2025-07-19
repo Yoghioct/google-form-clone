@@ -4,7 +4,7 @@ import useTranslation from 'next-translate/useTranslation';
 import { InferGetServerSidePropsType, NextPageContext } from 'next';
 import { getSession } from 'next-auth/react';
 
-import { getSurveyWithAnswers } from 'pages/api/survey/[id]';
+import { getSurveyWithAnswers } from 'pages/api/survey/[surveyId]';
 import { SurveyWithAnswers } from 'types/SurveyWithAnswers';
 import SurveyResults from 'features/surveys/features/SurveyResults/SurveyResults';
 import StandardPageWrapper from 'layout/StandardPageWrapper';

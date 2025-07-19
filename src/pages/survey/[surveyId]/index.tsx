@@ -10,7 +10,7 @@ export async function getServerSideProps(context: NextPageContext) {
   const surveyData = await getSurveyData(context.query.surveyId as string);
 
   if (surveyData) {
-    surveyData.questions = surveyData?.questions.map((question) => {
+    surveyData.questions = surveyData?.questions.map((question: any) => {
       return {
         ...question,
         answer: '',

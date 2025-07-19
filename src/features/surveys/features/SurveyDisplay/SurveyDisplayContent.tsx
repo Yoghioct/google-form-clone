@@ -23,7 +23,10 @@ export default function SurveyDisplayContent() {
     );
   }
 
-  if (!formData?.isActive) {
+  // Ensure isActive is properly converted to boolean
+  const isActiveBoolean = (formData?.isActive as any) === 1 || formData?.isActive === true || (formData?.isActive as any) === "1";
+
+  if (!isActiveBoolean) {
     return <SurveyNoActive />;
   }
 

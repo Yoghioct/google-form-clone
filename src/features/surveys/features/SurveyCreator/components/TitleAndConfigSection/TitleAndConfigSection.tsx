@@ -5,6 +5,7 @@ import {
   EyeOffIcon,
   ChevronDownIcon,
   ChevronRightIcon,
+  OfficeBuildingIcon,
 } from '@heroicons/react/outline';
 import SurveyOptionsModalModal from 'features/surveys/components/SurveyOptionsModal/SurveyOptionsModal';
 import useModal from 'features/surveys/hooks/useModal';
@@ -22,6 +23,7 @@ import { usePreviewPanelContext } from 'features/surveys/features/SurveyCreator/
 import Toggle from 'shared/components/Toggle/Toggle';
 import dynamic from 'next/dynamic';
 import Select from 'react-select';
+import { CompanyManager, Company } from 'features/company/companyManager';
 
 //Dynamically import ReactQuill to avoid SSR issues
 const ReactQuill = dynamic(() => import('react-quill'), {
@@ -56,6 +58,8 @@ export default function TitleAndConfigSection() {
     thankYouLogic,
     setThankYouLogic,
     questions,
+    associatedCompanies,
+    setAssociatedCompanies,
   } = useSurveyCreatorContext();
 
   const { togglePanel, isPanelOpened } = usePreviewPanelContext();
@@ -69,6 +73,13 @@ export default function TitleAndConfigSection() {
   const [disclaimerOpen, setDisclaimerOpen] = useState(showDisclaimer);
   const [thankYouLogicOpen, setThankYouLogicOpen] = useState(false);
   const [thankYouLogicEnabled, setThankYouLogicEnabled] = useState(false);
+  
+  // Company visibility state
+  const [companyVisibilityOpen, setCompanyVisibilityOpen] = useState(false);
+  const [companyVisibilityEnabled, setCompanyVisibilityEnabled] = useState(false);
+  const [companies, setCompanies] = useState<Company[]>([]);
+  const [selectedCompanies, setSelectedCompanies] = useState<string[]>([]);
+  const [loadingCompanies, setLoadingCompanies] = useState(false);
 
   // Inisialisasi toggle dan open jika thankYouLogic sudah ada
   useEffect(() => {
@@ -77,6 +88,50 @@ export default function TitleAndConfigSection() {
       setThankYouLogicOpen(true);
     }
   }, [thankYouLogic]);
+
+  // Initialize company visibility based on existing associated companies
+  useEffect(() => {
+    if (associatedCompanies && associatedCompanies.length > 0) {
+      setCompanyVisibilityEnabled(true);
+      setCompanyVisibilityOpen(true);
+      setSelectedCompanies(associatedCompanies);
+    }
+  }, [associatedCompanies]);
+
+  // Also initialize when companies are loaded and we have associated companies
+  useEffect(() => {
+    if (companies.length > 0 && associatedCompanies && associatedCompanies.length > 0) {
+      setCompanyVisibilityEnabled(true);
+      setCompanyVisibilityOpen(true);
+      setSelectedCompanies(associatedCompanies);
+    }
+  }, [companies, associatedCompanies]);
+
+  // Load companies on component mount
+  useEffect(() => {
+    const fetchCompanies = async () => {
+      try {
+        setLoadingCompanies(true);
+        const companiesData = await CompanyManager.getAllCompanies();
+        setCompanies(companiesData);
+      } catch (error) {
+        console.error('Error loading companies:', error);
+      } finally {
+        setLoadingCompanies(false);
+      }
+    };
+    
+    fetchCompanies();
+  }, []);
+
+  // Update associated companies when selection changes
+  useEffect(() => {
+    if (companyVisibilityEnabled) {
+      setAssociatedCompanies(selectedCompanies);
+    } else {
+      setAssociatedCompanies([]);
+    }
+  }, [selectedCompanies, companyVisibilityEnabled, setAssociatedCompanies]);
 
   useEffect(() => {
     // Normalisasi: pastikan question pada sum condition selalu array
@@ -482,6 +537,87 @@ export default function TitleAndConfigSection() {
             >
               + Tambah Rule
             </button>
+          </div>
+        )}
+      </div>
+
+      {/* Company Visibility Section */}
+      <div className="mt-4 p-4 border rounded bg-gray-50 w-full">
+        <div className="flex items-center mb-2 font-semibold text-gray-700">
+          <button
+            type="button"
+            className="btn relative flex items-center justify-center btn-secondary h-[38px] px-3 py-1 text-sm bg-secondary-50 mr-2"
+            onClick={() => {
+              if (companyVisibilityEnabled) {
+                setCompanyVisibilityOpen(!companyVisibilityOpen);
+              }
+            }}
+            aria-label={companyVisibilityOpen ? 'Tutup company visibility' : 'Buka company visibility'}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" aria-hidden="true" className={`w-[15px] transition-transform ${companyVisibilityOpen ? '' : '-rotate-90'}`}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"></path></svg>
+          </button>
+          <span className="flex-1">Company Visibility</span>
+          <Toggle
+            isEnabled={companyVisibilityEnabled}
+            onToggle={v => { 
+              setCompanyVisibilityEnabled(v); 
+              if (v) {
+                setCompanyVisibilityOpen(true);
+              } else {
+                setCompanyVisibilityOpen(false);
+                setSelectedCompanies([]);
+              }
+            }}
+            classNames="ml-2"
+          />
+        </div>
+        {companyVisibilityEnabled && companyVisibilityOpen && (
+          <div className="space-y-3 mt-2 w-full">
+            
+            {loadingCompanies ? (
+              <div className="flex items-center justify-center py-4">
+                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500"></div>
+                <span className="ml-2 text-gray-600">Loading companies...</span>
+              </div>
+            ) : (
+              <Select
+                isMulti
+                options={companies.map(company => ({
+                  value: company.id,
+                  label: company.name,
+                }))}
+                value={companies
+                  .filter(company => selectedCompanies.includes(company.id))
+                  .map(company => ({
+                    value: company.id,
+                    label: company.name,
+                  }))
+                }
+                onChange={selected => {
+                  setSelectedCompanies(selected ? selected.map(s => s.value) : []);
+                }}
+                classNamePrefix="react-select"
+                placeholder="Pilih perusahaan..."
+                noOptionsMessage={() => "Tidak ada perusahaan ditemukan"}
+                styles={{
+                  valueContainer: (base) => ({
+                    ...base,
+                    justifyContent: 'flex-start',
+                    padding: '2px 8px',
+                  }),
+                  option: (base, { isFocused, isSelected }) => ({
+                    ...base,
+                    textAlign: 'left',
+                    backgroundColor: isFocused
+                      ? '#eee'
+                      : isSelected
+                      ? '#ddd'
+                      : base.backgroundColor,
+                  }),
+                }}
+              />
+            )}
+            
           </div>
         )}
       </div>

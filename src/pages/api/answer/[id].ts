@@ -9,23 +9,46 @@ interface AnswerData {
 
 export async function getSurveyData(surveyId: string, userId?: string) {
   try {
-    const survey = await prismadb.survey.findFirst({
+    // First get the survey with all fields including associatedCompanies
+    const surveyData = await prismadb.$queryRaw`
+      SELECT * FROM Survey 
+      WHERE id = ${surveyId}
+    ` as any[];
+
+    if (!surveyData || surveyData.length === 0) {
+      return null;
+    }
+
+    const survey = surveyData[0];
+
+    // Convert integer boolean fields to actual booleans (MySQL returns 1/0 for BOOLEAN)
+    const normalizedSurvey = {
+      ...survey,
+      isActive: Boolean(survey.isActive),
+      oneQuestionPerStep: Boolean(survey.oneQuestionPerStep),
+      displayTitle: Boolean(survey.displayTitle),
+      hideProgressBar: survey.hideProgressBar ? Boolean(survey.hideProgressBar) : null,
+      displayLogo: survey.displayLogo ? Boolean(survey.displayLogo) : null,
+      showDisclaimer: Boolean(survey.showDisclaimer),
+    };
+
+    // Then get the questions separately
+    const questions = await prismadb.question.findMany({
       where: {
-        id: surveyId,
-        userId,
+        surveyId: surveyId,
       },
-      include: {
-        questions: {
-          orderBy: {
-            order: 'asc',
-          },
-        },
-        answers: false,
+      orderBy: {
+        order: 'asc',
       },
     });
 
-    return survey;
+    // Combine the data
+    return {
+      ...normalizedSurvey,
+      questions,
+    };
   } catch (error) {
+    console.error('Error in getSurveyData:', error);
     return null;
   }
 }

@@ -3,7 +3,7 @@ import { useSurveyResultsContext } from 'features/surveys/features/SurveyResults
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/outline';
 import Button, { ButtonVariant } from 'shared/components/Button/Button';
 import Input, { InputSize } from 'shared/components/Input/Input';
-import { QuestionType } from '@prisma/client';
+import { QuestionType } from 'shared/constants/surveysConfig';
 import EmojiListItem from 'features/surveys/features/SurveyDisplay/components/AnswersComponent/EmojiListItem/EmojiListItem';
 import StarComponent from 'features/surveys/features/SurveyDisplay/components/AnswersComponent/RateComponent/StarComponent/StarComponent';
 import clsx from 'clsx';
@@ -143,6 +143,13 @@ export default function IndividualResults() {
                 )}
                 {questionType === QuestionType.TEXTAREA && (
                   <p className="mb-3 mt-4">{answer}</p>
+                )}
+                {questionType === QuestionType.COMPANY && (
+                  <div className="mb-3 mt-4">
+                    <div className="inline-flex items-center rounded-lg border border-blue-200 bg-blue-50 px-4 py-2">
+                      <span className="text-blue-800 font-medium">{answer}</span>
+                    </div>
+                  </div>
                 )}
               </>
             ) : (

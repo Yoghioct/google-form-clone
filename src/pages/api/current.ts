@@ -13,7 +13,7 @@ export default async function handler(
     const { currentUser } = await serverAuth(req, res);
     return res.status(200).json(currentUser);
   } catch (error) {
-    console.error(error);
-    res.status(500).end();
+    // Return 401 instead of 500 for authentication errors
+    return res.status(401).json({ error: 'Not authenticated' });
   }
 }

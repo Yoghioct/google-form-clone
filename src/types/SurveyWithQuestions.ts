@@ -7,4 +7,5 @@ export type SurveyWithQuestions = Survey & {
   disclaimerTitle?: string;
   disclaimerBody?: string;
   thankYouLogic?: any;
+  associatedCompanies?: string[] | any; // Can be string[] or JSON from database
 };

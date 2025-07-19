@@ -52,13 +52,13 @@ function Navigation() {
       >
         <div className="flex items-center gap-6 text-secondary-800">
           <Logo />
-
+{/* 
           {pageTitle && (
             <div className="hidden items-center gap-6 sm:flex">
               <span>/</span>
               <span className="font-semibold">{pageTitle}</span>
             </div>
-          )}
+          )} */}
         </div>
         {!loading && user ? (
           <div className="flex md:space-x-4">

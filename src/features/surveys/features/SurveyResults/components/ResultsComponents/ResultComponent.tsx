@@ -1,4 +1,4 @@
-import { QuestionType } from '@prisma/client';
+import { QuestionType } from 'shared/constants/surveysConfig';
 import React, { useCallback, useEffect, useState } from 'react';
 import BarChart, {
   BarChartData,
@@ -63,7 +63,8 @@ export default function ResultComponent({
     if (
       type === QuestionType.EMOJI ||
       type === QuestionType.CHOICE ||
-      type === QuestionType.RATE
+      type === QuestionType.RATE ||
+      type === QuestionType.COMPANY
     ) {
       const chartData = getDataToChart();
       setChartData(chartData);
@@ -82,6 +83,7 @@ export default function ResultComponent({
       {type === QuestionType.RATE && <BarChart data={chartData} />}
       {type === QuestionType.DATE && <TextResults answers={notEmptyAnswers} />}
       {type === QuestionType.TEXTAREA && <TextResults answers={notEmptyAnswers} />}
+      {type === QuestionType.COMPANY && <BarChart data={chartData} />}
     </div>
   );
 }

@@ -120,7 +120,6 @@ export default function QuestionBlockFactory({
       {questionData.type === QuestionType.COMPANY && (
         <CompanyQuestionBlock
           questionIndex={questionIndex}
-          selectedCompanies={questionData.selectedCompanies ?? []}
         />
       )}
     </QuestionBlockWrapper>

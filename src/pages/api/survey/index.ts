@@ -39,6 +39,7 @@ export interface CreateEditSurveyPayload {
   disclaimerTitle?: string;
   disclaimerBody?: string;
   thankYouLogic?: any;
+  associatedCompanies?: string[];
 }
 
 export async function getAllUserSurveys(userId: string) {
@@ -121,6 +122,18 @@ export default async function handler(
           return res.status(400).end();
         }
 
+        // Extract company IDs from company questions
+        const companyQuestions = payloadQuestions.filter(q => q.type === QuestionType.COMPANY);
+        const associatedCompanies = companyQuestions.length > 0 
+          ? companyQuestions[0].selectedCompanies || []
+          : [];
+
+
+        // Use associatedCompanies from body if available, otherwise extract from company questions
+        const finalAssociatedCompanies = req.body.associatedCompanies && req.body.associatedCompanies.length > 0 
+          ? req.body.associatedCompanies 
+          : associatedCompanies;
+
         const survey = await prismadb.survey.create({
           data: {
             user: { connect: { id: session.currentUser.id } },
@@ -128,26 +141,27 @@ export default async function handler(
             description,
             accentColor,
             isActive: true,
-            oneQuestionPerStep,
-            displayTitle,
-            hideProgressBar,
-            displayLogo,
-            showDisclaimer,
+            oneQuestionPerStep: Boolean(oneQuestionPerStep),
+            displayTitle: Boolean(displayTitle),
+            hideProgressBar: hideProgressBar !== null ? Boolean(hideProgressBar) : null,
+            displayLogo: displayLogo !== null ? Boolean(displayLogo) : null,
+            showDisclaimer: Boolean(showDisclaimer),
             disclaimerTitle,
             disclaimerBody,
             thankYouLogic,
+            associatedCompanies: finalAssociatedCompanies,
             questions: {
               create: payloadQuestions.map((question, index) => ({
-                type: question.type,
+                type: question.type as any,
                 title: question.title,
                 description: question.description,
                 options: question.options ?? [],
-                isRequired: question.isRequired,
+                isRequired: Boolean(question.isRequired),
                 order: index,
                 logicPaths: question.logicPaths ?? [],
               })),
             },
-          },
+          } as any,
           include: {
             questions: true,
           },

@@ -11,7 +11,7 @@ import { QuestionWithLogicPath } from 'types/QuestionWithLogicPath';
 import { CreateEditSurveyPayload } from 'pages/api/survey';
 
 export default function PreviewPanel() {
-  const { questions, title, surveyOptions } = useSurveyCreatorContext();
+  const { questions, title, surveyOptions, associatedCompanies } = useSurveyCreatorContext();
   const { isPanelOpened, togglePanel, handleRestart, restartTrigger } =
     usePreviewPanelContext();
 
@@ -58,6 +58,7 @@ export default function PreviewPanel() {
               questions: questions.map((question: any, index: number) => ({
                 surveyId: '',
                 options: question.options ?? [],
+                selectedCompanies: question.selectedCompanies ?? [],
                 order: index,
                 createdAt: new Date(),
                 id: question.draftId,
@@ -73,6 +74,7 @@ export default function PreviewPanel() {
               disclaimerTitle: '',
               disclaimerBody: '',
               thankYouLogic: [],
+              associatedCompanies: associatedCompanies,
             }}
           />
         </div>

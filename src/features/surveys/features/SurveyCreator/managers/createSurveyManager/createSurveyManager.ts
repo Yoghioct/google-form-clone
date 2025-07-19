@@ -103,6 +103,35 @@ export const useCreateSurveyManager = (initialData?: SurveyWithQuestions) => {
   const [disclaimerBody, setDisclaimerBody] = useState(initialData?.disclaimerBody ?? '');
 
   const [thankYouLogic, setThankYouLogic] = useState<any>(initialData?.thankYouLogic ?? []);
+  
+  // Extract associated companies from initial data
+  const extractAssociatedCompanies = (surveyData?: SurveyWithQuestions): string[] => {
+    if (!surveyData?.associatedCompanies) return [];
+    
+    // If it's already an array, return it
+    if (Array.isArray(surveyData.associatedCompanies)) {
+      return surveyData.associatedCompanies;
+    }
+    
+    // If it's a JSON string or object, try to parse it
+    try {
+      const parsed = typeof surveyData.associatedCompanies === 'string' 
+        ? JSON.parse(surveyData.associatedCompanies)
+        : surveyData.associatedCompanies;
+      
+      if (Array.isArray(parsed)) {
+        return parsed;
+      }
+    } catch (error) {
+      console.error('Error parsing associatedCompanies:', error);
+    }
+    
+    return [];
+  };
+  
+  const [associatedCompanies, setAssociatedCompanies] = useState<string[]>(
+    extractAssociatedCompanies(initialData)
+  );
 
   const signInToCreateSurvey = () => {
     router.push('/login');
@@ -383,6 +412,7 @@ export const useCreateSurveyManager = (initialData?: SurveyWithQuestions) => {
       disclaimerTitle,
       disclaimerBody,
       thankYouLogic,
+      associatedCompanies,
       questions: questions.map((question) => ({
         draftId: question.draftId,
         title: question.title,
@@ -600,6 +630,8 @@ export const useCreateSurveyManager = (initialData?: SurveyWithQuestions) => {
     setDisclaimerBody,
     thankYouLogic,
     setThankYouLogic,
+    associatedCompanies,
+    setAssociatedCompanies,
   };
 };
 
